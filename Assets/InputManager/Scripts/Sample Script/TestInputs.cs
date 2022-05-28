@@ -7,7 +7,7 @@ public class TestInputs : MonoBehaviour, IInputListener
 	
 	public Text tapTxt;
 	public Text holdTxt;
-
+	public Text velocity;
 
 
 	float displayTextDuration;
@@ -23,7 +23,7 @@ public class TestInputs : MonoBehaviour, IInputListener
 
 	void HandleInputEvent(InputActionArgs input)
 	{
-		displayHoldTextDuration = Time.time;
+		displayHoldTextDuration = Time.time;		
 		switch (input.Action)
 		{			
 			case GameAction.Hold:
@@ -35,6 +35,7 @@ public class TestInputs : MonoBehaviour, IInputListener
 			case GameAction.SwipeRight:
 			case GameAction.SwipeUp:
 			case GameAction.SwipeDown:
+				velocity.text = input.Velocity.ToString();
 				displayTextDuration = Time.time;
 				tapTxt.text = input.Action.ToString();
 				tapTxt.text = input.Action.ToString();

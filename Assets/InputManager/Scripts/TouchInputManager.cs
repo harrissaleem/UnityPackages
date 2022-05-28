@@ -10,7 +10,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
 
 	static float swipeThreshold = 15f;
 
-	Vector2 touchStartPosition, touchEndPosition;
+	Vector3 touchStartPosition, touchEndPosition;
 	float startTime;
 	float endTime;
 	void Update()
@@ -93,12 +93,27 @@ public class TouchInputManager : Singleton<TouchInputManager>
 
 	float CheckVelocity()
 	{
-		float x = touchEndPosition.x - touchStartPosition.x;
+		touchStartPosition.z = touchEndPosition.z = Camera.main.nearClipPlane;
 
-		float time = endTime - startTime;
-		float velocity = x / time;
+		//Makes the input pixel density independent
+		touchStartPosition = Camera.main.ScreenToWorldPoint(touchStartPosition);
+		touchEndPosition = Camera.main.ScreenToWorldPoint(touchEndPosition);
 
-		return velocity;
+		float duration = endTime - startTime;
+
+		//The direction of the swipe
+		Vector3 dir = touchEndPosition - touchStartPosition;
+
+		//The distance of the swipe
+		float distance = dir.magnitude;
+
+		//Faster or longer swipes give higher power
+		float power = distance / duration;
+
+		//Measure power here
+		// Debug.Log("Power " + power);
+
+		return power;
 	}
 
 	void Invoke(GameAction action, Vector3 position, float velocity = 0)
