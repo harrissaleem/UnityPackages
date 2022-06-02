@@ -1,5 +1,8 @@
-﻿
-public interface IInputListener
+﻿namespace ZoiStudio.InputManager
 {
-	void OnInput(InputActionArgs action);
+    public interface IInputListener
+    {
+        void OnInput(InputActionArgs action);
+    }
+
 }

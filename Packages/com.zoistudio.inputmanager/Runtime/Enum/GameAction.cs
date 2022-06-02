@@ -1,10 +1,13 @@
-﻿public enum GameAction
+﻿namespace ZoiStudio.InputManager
 {
-    Tap,
-    TapReleased,
-    Hold,
-    SwipeLeft,
-    SwipeRight,
-    SwipeUp,
-    SwipeDown
+    public enum GameAction
+    {
+        Tap,
+        TapReleased,
+        Hold,
+        SwipeLeft,
+        SwipeRight,
+        SwipeUp,
+        SwipeDown
+    }
 }

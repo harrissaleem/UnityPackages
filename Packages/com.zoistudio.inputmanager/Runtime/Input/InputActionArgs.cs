@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public struct InputActionArgs
+namespace ZoiStudio.InputManager
 {
-    public GameAction Action;
-    public Vector2 LastTouchPosition;
-    public float Velocity;
+    public struct InputActionArgs
+    {
+        public GameAction Action;
+        public Vector2 LastTouchPosition;
+        public float Velocity;
+    }
 }
