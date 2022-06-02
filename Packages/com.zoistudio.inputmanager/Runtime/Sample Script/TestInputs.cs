@@ -71,7 +71,7 @@ namespace ZoiStudio.InputManager
 		{
 			// One way of doing it
 			//TouchInputManager.Instance.OnInput -= TouchInputManager_OnInput;		
-			// The way I like
+			// The way I like - but you should in practice always unsubscribe to all actions if the object is getting disabled or deleted
 			InputEventManager.UnSubscribe(this, GameAction.Tap);
 		}
 
