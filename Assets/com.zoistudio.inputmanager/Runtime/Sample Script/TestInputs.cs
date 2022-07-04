@@ -40,7 +40,6 @@ namespace ZoiStudio.InputManager
 					velocity.text = input.Velocity.ToString();
 					displayTextDuration = Time.time;
 					tapTxt.text = input.Action.ToString();
-					tapTxt.text = input.Action.ToString();
 					break;
 				default:
 					break;
@@ -65,6 +64,16 @@ namespace ZoiStudio.InputManager
 		private void TouchInputManager_OnInput(InputActionArgs action)
 		{
 			// HandleInputEvent(action);
+		}
+
+		public void OnTap()
+        {
+			tapTxt.text = "Tap";
+		}
+
+		public void SwifeLeft()
+        {
+			tapTxt.text = "Swipe Left";
 		}
 
 		public void OnDisable()

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace ZoiStudio.InputManager
 {
@@ -7,5 +9,12 @@ namespace ZoiStudio.InputManager
         public GameAction Action;
         public Vector2 LastTouchPosition;
         public float Velocity;
+    }
+
+    [Serializable]
+    public struct InputAction
+    {
+        public GameAction Action;
+        public UnityEvent OnAction;
     }
 }
