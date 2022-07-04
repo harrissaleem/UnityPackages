@@ -9,12 +9,12 @@ public class InputHandler : MonoBehaviour, IInputListener
 {
     public List<InputAction> gameActions;
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         InputEventManager.Subscribe(this, gameActions.Select(x => x.Action).ToArray());
     }
 
-    public void OnInput(InputActionArgs input)
+    public virtual void OnInput(InputActionArgs input)
     {
         var inputAction = gameActions.Where(x => x.Action == input.Action).First();
         if (inputAction.OnAction != null)
@@ -23,7 +23,7 @@ public class InputHandler : MonoBehaviour, IInputListener
         }
     }
 
-    private void OnDisable()
+    public virtual void OnDisable()
     {
         InputEventManager.UnSubscribe(this, gameActions.Select(x => x.Action).ToArray());
     }

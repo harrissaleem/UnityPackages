@@ -11,7 +11,21 @@ namespace ZoiStudio.InputManager
     public class InputEventManager
     {
         private static Hashtable _listenerTable = new Hashtable();
+
+        // Table specific for elements that want to know if they have been tapped
+        private static Hashtable _uiListenerTable = new Hashtable();
+
+        public static bool Register(IInputListener listener, params GameAction[] actions)
+        {
+            return AddListener(_uiListenerTable, listener, actions);
+        }
+
         public static bool Subscribe(IInputListener listener, params GameAction[] actions)
+        {
+            return AddListener(_listenerTable, listener, actions);
+        }
+
+        private static bool AddListener(Hashtable hashtable, IInputListener listener, params GameAction[] actions)
         {
             if (listener == null)
             {
@@ -21,12 +35,12 @@ namespace ZoiStudio.InputManager
 
             foreach (GameAction action in actions)
             {
-                if (!_listenerTable.ContainsKey(action))
+                if (!hashtable.ContainsKey(action))
                 {
-                    _listenerTable.Add(action, new ArrayList());
+                    hashtable.Add(action, new ArrayList());
                 }
 
-                ArrayList listenerList = _listenerTable[action] as ArrayList;
+                ArrayList listenerList = hashtable[action] as ArrayList;
                 if (listenerList == null)
                 {
                     Debug.LogError("listerner list is null, this is technically impossible");
@@ -43,7 +57,7 @@ namespace ZoiStudio.InputManager
             return true;
         }
 
-        public static bool UnSubscribe(IInputListener listener, params GameAction[] actions)
+        private static bool RemoveListener(Hashtable hashtable, IInputListener listener, params GameAction[] actions)
         {
             if (listener == null)
             {
@@ -53,13 +67,13 @@ namespace ZoiStudio.InputManager
 
             foreach (GameAction action in actions)
             {
-                if (!_listenerTable.ContainsKey(action))
+                if (!hashtable.ContainsKey(action))
                 {
                     Debug.LogError("No listeners attached to this event name " + action.ToString());
                     return false;
                 }
 
-                ArrayList listenerList = _listenerTable[action] as ArrayList;
+                ArrayList listenerList = hashtable[action] as ArrayList;
                 if (listenerList == null)
                 {
                     Debug.LogError("Listener list is null this is impossible at this stage");
@@ -77,20 +91,42 @@ namespace ZoiStudio.InputManager
             return true;
         }
 
+        public static bool UnRegister(IInputListener listener, params GameAction[] actions)
+        {
+            return RemoveListener(_uiListenerTable, listener, actions);
+        }
+
+        public static bool UnSubscribe(IInputListener listener, params GameAction[] actions)
+        {
+            return RemoveListener(_listenerTable, listener, actions);
+        }
+
         public static bool Invoke(InputActionArgs actionArgs)
         {
-            if (!_listenerTable.ContainsKey(actionArgs.Action))
+            InvokeValidListeners(_listenerTable, actionArgs);
+
+            if (UIRaycast.PointerIsOverUI(actionArgs.LastTouchPosition, out IInputListener uiListerener))
+            {
+                uiListerener.OnInput(actionArgs);
+            }
+
+            return true;
+        }
+
+        private static ArrayList InvokeValidListeners(Hashtable table, InputActionArgs actionArgs)
+        {
+            if (!table.ContainsKey(actionArgs.Action))
             {
                 //no listeners for this event so ignore it
                 Debug.LogWarning("no listeners for event: " + actionArgs.Action);
-                return false;
+                return null;
             }
 
-            ArrayList listenerList = _listenerTable[actionArgs.Action] as ArrayList;
+            ArrayList listenerList = table[actionArgs.Action] as ArrayList;
             if (listenerList == null)
             {
                 Debug.LogError("listener list can never be null: " + actionArgs.Action);
-                return false;
+                return null;
             }
 
             // Not using foreach because listenerList count can change during the execution
@@ -105,7 +141,8 @@ namespace ZoiStudio.InputManager
                 }
                 listener.OnInput(actionArgs);
             }
-            return true;
+
+            return listenerList;
         }
     }
 }

@@ -22,11 +22,11 @@ namespace ZoiStudio.InputManager
 			{
 				startTime = Time.time;
 				touchStartPosition = Input.mousePosition;
-				Invoke(GameAction.Tap, touchStartPosition);
+				Invoke(GameAction.Tap, Input.mousePosition);
 			}
 			else if (Input.GetKey(KeyCode.Mouse0))
 			{
-				Invoke(GameAction.Hold, touchStartPosition);
+				Invoke(GameAction.Hold, Input.mousePosition);
 			}
 			else if (Input.GetKeyUp(KeyCode.Mouse0))
 			{
@@ -36,7 +36,7 @@ namespace ZoiStudio.InputManager
 				var gameAction = CheckGameAction();
 				var velocity = CheckVelocity();
 
-				Invoke(gameAction, touchEndPosition, velocity);
+				Invoke(gameAction, Input.mousePosition, velocity);
 			}
 #endif
 #if UNITY_ANDROID
