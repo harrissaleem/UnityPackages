@@ -110,12 +110,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.zoistudio.inputmanager": {
-      "version": "file:com.zoistudio.inputmanager",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
