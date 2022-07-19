@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace ZoiStudio.InputManager
 {
-	public class TestInputs : MonoBehaviour, IInputListener
+	public class TestInputs : MonoBehaviour, IInputListener<TouchData>
 	{
 		public float ShowTextDuration = 0.1f;
 
@@ -20,27 +20,26 @@ namespace ZoiStudio.InputManager
 			// One way of doing it	
 			//TouchInputManager.Instance.OnInput += TouchInputManager_OnInput;
 			// The way I like
-			InputEventManager.Subscribe(this, GameAction.Tap, GameAction.Hold, GameAction.SwipeLeft, GameAction.SwipeRight, GameAction.SwipeUp, GameAction.SwipeDown, GameAction.TapReleased);
+			InputEventManager<TouchData>.Subscribe(this, TouchGameAction.Tap, TouchGameAction.Hold, TouchGameAction.SwipeLeft, TouchGameAction.SwipeRight, TouchGameAction.SwipeUp, TouchGameAction.SwipeDown, TouchGameAction.TapReleased);
 		}
 
-		void HandleInputEvent(InputActionArgs input)
+		void HandleInputEvent(InputActionArgs<TouchData> inputArgs)
 		{
 			displayHoldTextDuration = Time.time;
-			switch (input.Action)
+			switch (inputArgs.Action)
 			{
-				case GameAction.Hold:
-					holdTxt.text = input.Action.ToString();
+				case TouchGameAction.Hold:
+					holdTxt.text = inputArgs.Action.ToString();
 					break;
-				case GameAction.Tap:
-				case GameAction.TapReleased:
-				case GameAction.SwipeLeft:
-				case GameAction.SwipeRight:
-				case GameAction.SwipeUp:
-				case GameAction.SwipeDown:
-					velocity.text = input.Velocity.ToString();
+				case TouchGameAction.Tap:
+				case TouchGameAction.TapReleased:
+				case TouchGameAction.SwipeLeft:
+				case TouchGameAction.SwipeRight:
+				case TouchGameAction.SwipeUp:
+				case TouchGameAction.SwipeDown:
+					velocity.text = inputArgs.InputData.Velocity.ToString();
 					displayTextDuration = Time.time;
-					tapTxt.text = input.Action.ToString();
-					tapTxt.text = input.Action.ToString();
+					tapTxt.text = inputArgs.Action.ToString();
 					break;
 				default:
 					break;
@@ -62,9 +61,19 @@ namespace ZoiStudio.InputManager
 			}
 		}
 
-		private void TouchInputManager_OnInput(InputActionArgs action)
+		private void TouchInputManager_OnInput(InputActionArgs<TouchData> action)
 		{
 			// HandleInputEvent(action);
+		}
+
+		public void OnTap()
+        {
+			tapTxt.text = "Tap";
+		}
+
+		public void SwifeLeft()
+        {
+			tapTxt.text = "Swipe Left";
 		}
 
 		public void OnDisable()
@@ -72,10 +81,10 @@ namespace ZoiStudio.InputManager
 			// One way of doing it
 			//TouchInputManager.Instance.OnInput -= TouchInputManager_OnInput;		
 			// The way I like - but you should in practice always unsubscribe to all actions if the object is getting disabled or deleted
-			InputEventManager.UnSubscribe(this, GameAction.Tap);
+			InputEventManager<TouchData>.UnSubscribe(this, TouchGameAction.Tap);
 		}
 
-		public void OnInput(InputActionArgs input)
+		public void OnInput(InputActionArgs<TouchData> input)
 		{
 			HandleInputEvent(input);
 		}

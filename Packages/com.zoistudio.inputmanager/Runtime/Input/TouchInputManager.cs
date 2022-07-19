@@ -1,12 +1,10 @@
-﻿using System.ComponentModel;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 namespace ZoiStudio.InputManager
 {
 	public class TouchInputManager : Singleton<TouchInputManager>
 	{
-		public delegate void GetInput(InputActionArgs action);
+		public delegate void GetInput(InputActionArgs<TouchData> action);
 
 		public event GetInput OnInput;
 
@@ -22,21 +20,22 @@ namespace ZoiStudio.InputManager
 			{
 				startTime = Time.time;
 				touchStartPosition = Input.mousePosition;
-				Invoke(GameAction.Tap, touchStartPosition);
+				Invoke(TouchGameAction.Tap, Input.mousePosition);
 			}
 			else if (Input.GetKey(KeyCode.Mouse0))
 			{
-				Invoke(GameAction.Hold, touchStartPosition);
+				Invoke(TouchGameAction.Hold, Input.mousePosition);
 			}
 			else if (Input.GetKeyUp(KeyCode.Mouse0))
 			{
 				endTime = Time.time;
 				touchEndPosition = Input.mousePosition;
 
-				var gameAction = CheckGameAction();
+				var gameAction = CheckSwipe();
 				var velocity = CheckVelocity();
 
-				Invoke(gameAction, touchEndPosition, velocity);
+				Invoke(gameAction, Input.mousePosition, velocity);
+				Invoke(TouchGameAction.HoldReleased, Input.mousePosition, velocity);
 			}
 #endif
 #if UNITY_ANDROID
@@ -48,7 +47,7 @@ namespace ZoiStudio.InputManager
 					{
 						startTime = Time.time;
 						touchStartPosition = touchevt.position;
-						Invoke(GameAction.Tap, touchevt.position);
+						Invoke(TouchGameAction.Tap, touchevt.position);
 					}
 					// Checking only on ended for now to fix the swipe issue
 					else if (/*touchevt.phase == TouchPhase.Moved || */touchevt.phase == TouchPhase.Ended)
@@ -56,38 +55,39 @@ namespace ZoiStudio.InputManager
 						endTime = Time.time;
 						touchEndPosition = touchevt.position;
 
-						var gameAction = CheckGameAction();
+						var gameAction = CheckSwipe();
 						var velocity = CheckVelocity();
 
 						Invoke(gameAction, touchevt.position, velocity);
+						Invoke(TouchGameAction.HoldReleased, touchevt.position, velocity);
 					}
 					else if (touchevt.phase == TouchPhase.Stationary)
 					{
-						Invoke(GameAction.Hold, touchevt.position);
+						Invoke(TouchGameAction.Hold, touchevt.position);
 					}
 				}
 			}
 #endif
 		}
 
-		GameAction CheckGameAction()
+		TouchGameAction CheckSwipe()
 		{
 			float x = touchEndPosition.x - touchStartPosition.x;
 			float y = touchEndPosition.y - touchStartPosition.y;
-			GameAction gameAction;
+			TouchGameAction gameAction;
 			if (Mathf.Abs(x) <= swipeThreshold && Mathf.Abs(y) <= swipeThreshold)
 			{
-				// Touch was a tap and it ended. This can be used as tap Up if needed
-				return GameAction.TapReleased;
+				gameAction = TouchGameAction.TapReleased;
+				return gameAction;
 			}
 
 			if (Mathf.Abs(x) > Mathf.Abs(y))
 			{
-				gameAction = x > 0 ? GameAction.SwipeRight : GameAction.SwipeLeft;
+				gameAction = x > 0 ? TouchGameAction.SwipeRight : TouchGameAction.SwipeLeft;
 			}
 			else
 			{
-				gameAction = y > 0 ? GameAction.SwipeUp : GameAction.SwipeDown;
+				gameAction = y > 0 ? TouchGameAction.SwipeUp : TouchGameAction.SwipeDown;
 			}
 
 			return gameAction;
@@ -118,20 +118,30 @@ namespace ZoiStudio.InputManager
 			return power;
 		}
 
-		void Invoke(GameAction action, Vector3 position, float velocity = 0)
+		void Invoke(TouchGameAction action, Vector3 position, float velocity = 0)
 		{
 			var inputArgs = GetInputArgs(action, position, velocity);
 			OnInput?.Invoke(inputArgs);
-			InputEventManager.Invoke(inputArgs);
+			InputEventManager<TouchData>.Invoke(inputArgs);
+
+			if (action == TouchGameAction.Hold)
+				return;
+			if (UIRaycast.PointerIsOverUI(position, out IInputListener<TouchData> uiListerener))
+			{
+				uiListerener.OnInput(inputArgs);
+			}
 		}
 
-		InputActionArgs GetInputArgs(GameAction action, Vector3 position, float velocity)
+		InputActionArgs<TouchData> GetInputArgs(TouchGameAction action, Vector3 position, float velocity)
 		{
-			return new InputActionArgs()
+			return new InputActionArgs<TouchData>()
 			{
 				Action = action,
-				LastTouchPosition = position,
-				Velocity = velocity
+				InputData = new TouchData() 
+				{ 
+					LastTouchPosition = position, 
+					Velocity = velocity 
+				}
 			};
 		}
 	}

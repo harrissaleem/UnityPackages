@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace ZoiStudio.InputManager
@@ -8,10 +7,24 @@ namespace ZoiStudio.InputManager
     /// <summary>
     /// This is an alternate approach of Action Invoke(). As Invoke would use reflection which is not good for performance
     /// </summary>
-    public class InputEventManager
+    public class InputEventManager<T> where T : struct
     {
         private static Hashtable _listenerTable = new Hashtable();
-        public static bool Subscribe(IInputListener listener, params GameAction[] actions)
+
+        // Table specific for elements that want to know if they have been tapped
+        private static Hashtable _uiListenerTable = new Hashtable();
+
+        public static bool Register(IInputListener<T> listener, params Enum[] actions)
+        {
+            return AddListener(_uiListenerTable, listener, actions);
+        }
+
+        public static bool Subscribe(IInputListener<T> listener, params Enum[] actions)
+        {
+            return AddListener(_listenerTable, listener, actions);
+        }
+
+        private static bool AddListener(Hashtable hashtable, IInputListener<T> listener, params Enum[] actions)
         {
             if (listener == null)
             {
@@ -19,14 +32,14 @@ namespace ZoiStudio.InputManager
                 return false;
             }
 
-            foreach (GameAction action in actions)
+            foreach (Enum action in actions)
             {
-                if (!_listenerTable.ContainsKey(action))
+                if (!hashtable.ContainsKey(action))
                 {
-                    _listenerTable.Add(action, new ArrayList());
+                    hashtable.Add(action, new ArrayList());
                 }
 
-                ArrayList listenerList = _listenerTable[action] as ArrayList;
+                ArrayList listenerList = hashtable[action] as ArrayList;
                 if (listenerList == null)
                 {
                     Debug.LogError("listerner list is null, this is technically impossible");
@@ -43,7 +56,7 @@ namespace ZoiStudio.InputManager
             return true;
         }
 
-        public static bool UnSubscribe(IInputListener listener, params GameAction[] actions)
+        private static bool RemoveListener(Hashtable hashtable, IInputListener<T> listener, params Enum[] actions)
         {
             if (listener == null)
             {
@@ -51,15 +64,15 @@ namespace ZoiStudio.InputManager
                 return false;
             }
 
-            foreach (GameAction action in actions)
+            foreach (Enum action in actions)
             {
-                if (!_listenerTable.ContainsKey(action))
+                if (!hashtable.ContainsKey(action))
                 {
                     Debug.LogError("No listeners attached to this event name " + action.ToString());
                     return false;
                 }
 
-                ArrayList listenerList = _listenerTable[action] as ArrayList;
+                ArrayList listenerList = hashtable[action] as ArrayList;
                 if (listenerList == null)
                 {
                     Debug.LogError("Listener list is null this is impossible at this stage");
@@ -77,26 +90,43 @@ namespace ZoiStudio.InputManager
             return true;
         }
 
-        public static bool Invoke(InputActionArgs actionArgs)
+        public static bool UnRegister(IInputListener<T> listener, params Enum[] actions)
         {
-            if (!_listenerTable.ContainsKey(actionArgs.Action))
+            return RemoveListener(_uiListenerTable, listener, actions);
+        }
+
+        public static bool UnSubscribe(IInputListener<T> listener, params Enum[] actions)
+        {
+            return RemoveListener(_listenerTable, listener, actions);
+        }
+
+        public static bool Invoke(InputActionArgs<T> actionArgs)
+        {
+            InvokeValidListeners(_listenerTable, actionArgs);
+
+            return true;
+        }
+
+        private static ArrayList InvokeValidListeners(Hashtable table, InputActionArgs<T> actionArgs)
+        {
+            if (!table.ContainsKey(actionArgs.Action))
             {
                 //no listeners for this event so ignore it
                 Debug.LogWarning("no listeners for event: " + actionArgs.Action);
-                return false;
+                return null;
             }
 
-            ArrayList listenerList = _listenerTable[actionArgs.Action] as ArrayList;
+            ArrayList listenerList = table[actionArgs.Action] as ArrayList;
             if (listenerList == null)
             {
                 Debug.LogError("listener list can never be null: " + actionArgs.Action);
-                return false;
+                return null;
             }
 
             // Not using foreach because listenerList count can change during the execution
             for (int i = 0; i <= listenerList.Count - 1; i++)
             {
-                IInputListener listener = listenerList[i] as IInputListener;
+                IInputListener<T> listener = listenerList[i] as IInputListener<T>;
                 if (listener == null)
                 {
                     //remove null listener and continue to next one
@@ -105,7 +135,8 @@ namespace ZoiStudio.InputManager
                 }
                 listener.OnInput(actionArgs);
             }
-            return true;
+
+            return listenerList;
         }
     }
 }
