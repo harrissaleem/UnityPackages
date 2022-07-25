@@ -18,9 +18,10 @@ namespace ZoiStudio.InputManager
 
     public struct DesktopData
     {
-        public KeyCode KeyCode;
+        public KeyCode keyCode;
         public Vector2 mousePosition;
         public Vector2 deltaMouse;
+        public int mouseButton;
     }
 
     [Serializable]
