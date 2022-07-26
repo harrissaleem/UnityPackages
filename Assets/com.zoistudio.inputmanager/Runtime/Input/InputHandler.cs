@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,14 +6,15 @@ using ZoiStudio.InputManager;
 // This is just a sample. You should implement your own input handler class
 public class InputHandler : MonoBehaviour, IInputListener<TouchData>
 {
+    public string ListenerGroup { get; private set; }
     public List<InputAction> gameActions;
 
-    public virtual void OnEnable()
+    public void Activate()
     {
         InputEventManager<TouchData>.Subscribe(this, gameActions.Select(x => x.Action).ToArray());
     }
 
-    public virtual void OnDisable()
+    public void Deactivate()
     {
         InputEventManager<TouchData>.UnSubscribe(this, gameActions.Select(x => x.Action).ToArray());
     }

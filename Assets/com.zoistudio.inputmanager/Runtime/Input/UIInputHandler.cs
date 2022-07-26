@@ -3,6 +3,17 @@ using ZoiStudio.InputManager;
 
 public class UIInputHandler : MonoBehaviour, IInputListener<TouchData>
 {
+    public string ListenerGroup { get; private set; }
+
+    public void Activate()
+    {
+
+    }
+    public void Deactivate()
+    {
+
+    }
+
     public void OnInput(InputActionArgs<TouchData> input)
     {
         switch (input.Action)

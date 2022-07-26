@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace ZoiStudio.InputManager
 {
@@ -10,16 +11,27 @@ namespace ZoiStudio.InputManager
 
 		static float swipeThreshold = 15f;
 
-		Vector3 touchStartPosition, touchEndPosition;
-		float startTime;
-		float endTime;
+		private HashSet<IInputListener<TouchData>> mListeners = new HashSet<IInputListener<TouchData>>();
+		Vector3 mTouchStartPosition, mTouchEndPosition;
+		float mStartTime;
+		float mEndTime;
+
+		public void SubscribeToOnUITap(IInputListener<TouchData> listener)
+        {
+			mListeners.Add(listener);
+        }
+		public void UnSubscribeToOnUITap(IInputListener<TouchData> listener)
+		{
+			mListeners.Remove(listener);
+		}
+
 		void Update()
 		{
 #if UNITY_EDITOR
 			if (Input.GetKeyDown(KeyCode.Mouse0))
 			{
-				startTime = Time.time;
-				touchStartPosition = Input.mousePosition;
+				mStartTime = Time.time;
+				mTouchStartPosition = Input.mousePosition;
 				Invoke(TouchGameAction.Tap, Input.mousePosition);
 			}
 			else if (Input.GetKey(KeyCode.Mouse0))
@@ -28,8 +40,8 @@ namespace ZoiStudio.InputManager
 			}
 			else if (Input.GetKeyUp(KeyCode.Mouse0))
 			{
-				endTime = Time.time;
-				touchEndPosition = Input.mousePosition;
+				mEndTime = Time.time;
+				mTouchEndPosition = Input.mousePosition;
 
 				var gameAction = CheckSwipe();
 				var velocity = CheckVelocity();
@@ -45,15 +57,15 @@ namespace ZoiStudio.InputManager
 				{
 					if (touchevt.phase == TouchPhase.Began)
 					{
-						startTime = Time.time;
-						touchStartPosition = touchevt.position;
+						mStartTime = Time.time;
+						mTouchStartPosition = touchevt.position;
 						Invoke(TouchGameAction.Tap, touchevt.position);
 					}
 					// Checking only on ended for now to fix the swipe issue
 					else if (/*touchevt.phase == TouchPhase.Moved || */touchevt.phase == TouchPhase.Ended)
 					{
-						endTime = Time.time;
-						touchEndPosition = touchevt.position;
+						mEndTime = Time.time;
+						mTouchEndPosition = touchevt.position;
 
 						var gameAction = CheckSwipe();
 						var velocity = CheckVelocity();
@@ -72,8 +84,8 @@ namespace ZoiStudio.InputManager
 
 		TouchGameAction CheckSwipe()
 		{
-			float x = touchEndPosition.x - touchStartPosition.x;
-			float y = touchEndPosition.y - touchStartPosition.y;
+			float x = mTouchEndPosition.x - mTouchStartPosition.x;
+			float y = mTouchEndPosition.y - mTouchStartPosition.y;
 			TouchGameAction gameAction;
 			if (Mathf.Abs(x) <= swipeThreshold && Mathf.Abs(y) <= swipeThreshold)
 			{
@@ -95,16 +107,16 @@ namespace ZoiStudio.InputManager
 
 		float CheckVelocity()
 		{
-			touchStartPosition.z = touchEndPosition.z = Camera.main.nearClipPlane;
+			mTouchStartPosition.z = mTouchEndPosition.z = Camera.main.nearClipPlane;
 
 			//Makes the input pixel density independent
-			touchStartPosition = Camera.main.ScreenToWorldPoint(touchStartPosition);
-			touchEndPosition = Camera.main.ScreenToWorldPoint(touchEndPosition);
+			mTouchStartPosition = Camera.main.ScreenToWorldPoint(mTouchStartPosition);
+			mTouchEndPosition = Camera.main.ScreenToWorldPoint(mTouchEndPosition);
 
-			float duration = endTime - startTime;
+			float duration = mEndTime - mStartTime;
 
 			//The direction of the swipe
-			Vector3 dir = touchEndPosition - touchStartPosition;
+			Vector3 dir = mTouchEndPosition - mTouchStartPosition;
 
 			//The distance of the swipe
 			float distance = dir.magnitude;
@@ -126,9 +138,10 @@ namespace ZoiStudio.InputManager
 
 			if (action == TouchGameAction.Hold)
 				return;
-			if (UIRaycast.PointerIsOverUI(position, out IInputListener<TouchData> uiListerener))
+			if (UIRaycast.PointerIsOverUI(position, out IInputListener<TouchData> uiListener))
 			{
-				uiListerener.OnInput(inputArgs);
+				if (mListeners.Contains(uiListener))
+					uiListener.OnInput(inputArgs);
 			}
 		}
 

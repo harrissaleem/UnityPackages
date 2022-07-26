@@ -5,6 +5,7 @@ namespace ZoiStudio.InputManager
 {
 	public class TestInputs : MonoBehaviour, IInputListener<TouchData>
 	{
+		public string ListenerGroup { get; private set; }
 		public float ShowTextDuration = 0.1f;
 
 		public Text tapTxt;
@@ -15,7 +16,7 @@ namespace ZoiStudio.InputManager
 		float displayTextDuration;
 		float displayHoldTextDuration;
 
-		public void OnEnable()
+		public void Activate()
 		{
 			// One way of doing it	
 			//TouchInputManager.Instance.OnInput += TouchInputManager_OnInput;
@@ -76,7 +77,7 @@ namespace ZoiStudio.InputManager
 			tapTxt.text = "Swipe Left";
 		}
 
-		public void OnDisable()
+		public void Deactivate()
 		{
 			// One way of doing it
 			//TouchInputManager.Instance.OnInput -= TouchInputManager_OnInput;		
