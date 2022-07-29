@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.EventSystems;
 
 namespace ZoiStudio.InputManager
 {
@@ -9,85 +11,111 @@ namespace ZoiStudio.InputManager
 
 		public event GetInput OnInput;
 
-		static float swipeThreshold = 15f;
+		private const int DESKTOP_TOUCH_ID = 0;
+		private const float SWIPE_THRESHOLD = 15f;
+		private const int MAX_TOUCHES = 4;
 
-		private HashSet<IInputListener<TouchData>> mListeners = new HashSet<IInputListener<TouchData>>();
-		Vector3 mTouchStartPosition, mTouchEndPosition;
-		float mStartTime;
-		float mEndTime;
+		/// <summary>
+		/// You have to subscribe to receive a callback on raycast
+		/// </summary>
+		private Hashtable mListeners = new Hashtable();
+		/// <summary>
+		/// if you touch a UI object, it will be set as a priority listener and only it will receive callbacks until that Touch
+		/// </summary>
+		private Hashtable mPriorityListeners = new Hashtable();
+		/// <summary>
+		/// These are the listeners directly underneath the Touch(s)/mouse
+		/// </summary>
+		private Hashtable mHoveringListeners = new Hashtable();
 
-		public void SubscribeToOnUITap(IInputListener<TouchData> listener)
+		private Vector3 mTouchStartPosition, mTouchEndPosition;
+		private float mStartTime;
+		private float mEndTime;
+
+		public void SubscribeToOnUITap(GameObject listenerObj, IInputListener<TouchData> listener)
         {
-			mListeners.Add(listener);
+			if (!mListeners.ContainsKey(listenerObj))
+				mListeners.Add(listenerObj, listener);
         }
-		public void UnSubscribeToOnUITap(IInputListener<TouchData> listener)
+		public void UnSubscribeToOnUITap(GameObject listenerObj)
 		{
-			mListeners.Remove(listener);
+			mListeners.Remove(listenerObj);
 		}
 
-		void Update()
+        private void Start()
+		{
+#if UNITY_EDITOR
+			mHoveringListeners[DESKTOP_TOUCH_ID] = null;
+			mPriorityListeners[DESKTOP_TOUCH_ID] = null;
+#endif
+		}
+
+        private void Update()
 		{
 #if UNITY_EDITOR
 			if (Input.GetKeyDown(KeyCode.Mouse0))
 			{
 				mStartTime = Time.time;
 				mTouchStartPosition = Input.mousePosition;
-				Invoke(TouchGameAction.Tap, Input.mousePosition);
+				InvokeTouch(TouchGameAction.Tap, Input.mousePosition, DESKTOP_TOUCH_ID);
 			}
 			else if (Input.GetKey(KeyCode.Mouse0))
 			{
-				Invoke(TouchGameAction.Hold, Input.mousePosition);
+				InvokeTouch(TouchGameAction.Hold, Input.mousePosition, DESKTOP_TOUCH_ID);
 			}
 			else if (Input.GetKeyUp(KeyCode.Mouse0))
 			{
 				mEndTime = Time.time;
-				mTouchEndPosition = Input.mousePosition;
+                mTouchEndPosition = Input.mousePosition;
 
-				var gameAction = CheckSwipe();
-				var velocity = CheckVelocity();
+                var gameAction = CheckSwipe();
+                var velocity = CheckVelocity();
 
-				Invoke(gameAction, Input.mousePosition, velocity);
-				Invoke(TouchGameAction.HoldReleased, Input.mousePosition, velocity);
+				InvokeTouch(gameAction, Input.mousePosition, DESKTOP_TOUCH_ID, velocity);
+				InvokeTouch(TouchGameAction.HoldReleased, Input.mousePosition, DESKTOP_TOUCH_ID, velocity);
 			}
-#endif
-#if UNITY_ANDROID
-			if (Input.touchCount > 0)
+#else
+			if (Input.touchCount <= 0 || Input.touchCount > MAX_TOUCHES)
 			{
-				foreach (Touch touchevt in Input.touches)
+				mHoveringListeners.Clear();
+				mPriorityListeners.Clear();
+				return;
+			}
+
+			foreach (Touch touchevt in Input.touches)
+			{
+				if (touchevt.phase == TouchPhase.Began)
 				{
-					if (touchevt.phase == TouchPhase.Began)
-					{
-						mStartTime = Time.time;
-						mTouchStartPosition = touchevt.position;
-						Invoke(TouchGameAction.Tap, touchevt.position);
-					}
-					// Checking only on ended for now to fix the swipe issue
-					else if (/*touchevt.phase == TouchPhase.Moved || */touchevt.phase == TouchPhase.Ended)
-					{
-						mEndTime = Time.time;
-						mTouchEndPosition = touchevt.position;
+					mStartTime = Time.time;
+					mTouchStartPosition = touchevt.position;
+					InvokeTouch(TouchGameAction.Tap, touchevt.position, touchevt.fingerId);
+				}
+				// Checking only on ended for now to fix the swipe issue
+				else if (/*touchevt.phase == TouchPhase.Moved || */touchevt.phase == TouchPhase.Ended)
+				{
+					mEndTime = Time.time;
+					mTouchEndPosition = touchevt.position;
 
-						var gameAction = CheckSwipe();
-						var velocity = CheckVelocity();
+					var gameAction = CheckSwipe();
+					var velocity = CheckVelocity();
 
-						Invoke(gameAction, touchevt.position, velocity);
-						Invoke(TouchGameAction.HoldReleased, touchevt.position, velocity);
-					}
-					else if (touchevt.phase == TouchPhase.Stationary)
-					{
-						Invoke(TouchGameAction.Hold, touchevt.position);
-					}
+					InvokeTouch(gameAction, touchevt.position, touchevt.fingerId, velocity);
+					InvokeTouch(TouchGameAction.HoldReleased, touchevt.position, touchevt.fingerId, velocity);
+				}
+				else if (touchevt.phase == TouchPhase.Stationary)
+				{
+					InvokeTouch(TouchGameAction.Hold, touchevt.position, touchevt.fingerId);
 				}
 			}
 #endif
 		}
 
-		TouchGameAction CheckSwipe()
+		private TouchGameAction CheckSwipe()
 		{
 			float x = mTouchEndPosition.x - mTouchStartPosition.x;
 			float y = mTouchEndPosition.y - mTouchStartPosition.y;
 			TouchGameAction gameAction;
-			if (Mathf.Abs(x) <= swipeThreshold && Mathf.Abs(y) <= swipeThreshold)
+			if (Mathf.Abs(x) <= SWIPE_THRESHOLD && Mathf.Abs(y) <= SWIPE_THRESHOLD)
 			{
 				gameAction = TouchGameAction.TapReleased;
 				return gameAction;
@@ -105,7 +133,7 @@ namespace ZoiStudio.InputManager
 			return gameAction;
 		}
 
-		float CheckVelocity()
+		private float CheckVelocity()
 		{
 			mTouchStartPosition.z = mTouchEndPosition.z = Camera.main.nearClipPlane;
 
@@ -130,22 +158,47 @@ namespace ZoiStudio.InputManager
 			return power;
 		}
 
-		void Invoke(TouchGameAction action, Vector3 position, float velocity = 0)
-		{
-			var inputArgs = GetInputArgs(action, position, velocity);
-			OnInput?.Invoke(inputArgs);
-			InputEventManager<TouchData>.Invoke(inputArgs);
+		private void InvokeTouch(TouchGameAction action, Vector3 position, int touchID, float velocity = 0)
+        {
+			var hoveringListener = GetOnHoverListener(Input.mousePosition);
+			var priorityListener = (IInputListener<TouchData>)mPriorityListeners[touchID];
 
-			if (action == TouchGameAction.Hold)
-				return;
-			if (UIRaycast.PointerIsOverUI(position, out IInputListener<TouchData> uiListener))
-			{
-				if (mListeners.Contains(uiListener))
-					uiListener.OnInput(inputArgs);
-			}
+			if (hoveringListener != null && priorityListener == null)
+				priorityListener = hoveringListener;
+
+			Invoke(action, position, ref priorityListener, velocity);
+
+			mHoveringListeners[touchID] = hoveringListener;
+			mPriorityListeners[touchID] = priorityListener;
 		}
 
-		InputActionArgs<TouchData> GetInputArgs(TouchGameAction action, Vector3 position, float velocity)
+		private void Invoke(TouchGameAction action, Vector3 position, ref IInputListener<TouchData> priorityListener, float velocity)
+		{
+			var inputArgs = GetInputArgs(action, position, velocity);
+			if (priorityListener != null)
+			{
+				priorityListener.OnInput(inputArgs);
+				if (action == TouchGameAction.HoldReleased || action == TouchGameAction.TapReleased)
+					priorityListener = null;
+				return;
+			}
+			OnInput?.Invoke(inputArgs);
+			InputEventManager<TouchData>.Invoke(inputArgs);
+		}
+
+		private IInputListener<TouchData> GetOnHoverListener(Vector3 position)
+        {
+			if (UIRaycast.PointerIsOverUI(position, out List<RaycastResult> raycastResults))
+			{
+				RaycastResult result = raycastResults[0]; // only considering the one at the front!
+
+				if (mListeners.Contains(result.gameObject))
+					return (IInputListener<TouchData>)mListeners[result.gameObject];
+			}
+			return null;
+		}
+
+		private InputActionArgs<TouchData> GetInputArgs(TouchGameAction action, Vector3 position, float velocity)
 		{
 			return new InputActionArgs<TouchData>()
 			{

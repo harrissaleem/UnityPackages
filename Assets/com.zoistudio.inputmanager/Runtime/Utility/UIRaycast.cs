@@ -6,18 +6,17 @@ namespace ZoiStudio.InputManager
 {
     public static class UIRaycast
     {
-        public static bool PointerIsOverUI<T>(Vector2 screenPos, out IInputListener<T> uiListener) where T : struct
+        public static bool PointerIsOverUI(Vector2 screenPos, out List<RaycastResult> raycastResults)
         {
-            uiListener = Raycast<T>(ScreenPosToPointerData(screenPos));
-            return uiListener != null;
+            raycastResults = Raycast(ScreenPosToPointerData(screenPos));
+            return raycastResults.Count > 0;
         }
 
-        static IInputListener<T> Raycast<T>(PointerEventData pointerData) where T : struct
+        static List<RaycastResult> Raycast(PointerEventData pointerData)
         {
             var results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerData, results);
-
-            return results.Count < 1 ? null : results[0].gameObject.GetComponent<IInputListener<T>>();
+            return results;
         }
 
         static PointerEventData ScreenPosToPointerData(Vector2 screenPos)
