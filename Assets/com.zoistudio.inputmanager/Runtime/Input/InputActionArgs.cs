@@ -13,6 +13,7 @@ namespace ZoiStudio.InputManager
     public struct TouchData
     {
         public Vector2 LastTouchPosition;
+        public int FingerID;
         public float Velocity;
     }
 
