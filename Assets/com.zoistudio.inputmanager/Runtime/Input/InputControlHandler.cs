@@ -57,9 +57,12 @@ namespace ZoiStudio.InputManager
         {
             if (!mSortedListeners.ContainsKey(listenerGroup))
             {
-                Debug.Log("ListenerGroup = " + listenerGroup + " for T = " + typeof(T).ToString() + " does not exist");
+                mSortedListeners.Add(listenerGroup, new List<IInputListener<T>>());
+                mActiveGroups.Add(listenerGroup);
                 return;
             }
+            if (mActiveGroups.Contains(listenerGroup))
+                return;
             mActiveGroups.Add(listenerGroup);
             var newGroup = (List<IInputListener<T>>)mSortedListeners[listenerGroup];
             foreach (var listener in newGroup)
