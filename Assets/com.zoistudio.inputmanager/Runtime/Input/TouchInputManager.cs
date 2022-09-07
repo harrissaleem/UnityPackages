@@ -138,8 +138,6 @@ namespace ZoiStudio.InputManager
 				gameAction = y > 0 ? TouchGameAction.SwipeUp : TouchGameAction.SwipeDown;
 			}
 
-			mTouchStartPosition = mTouchEndPosition;
-
 			return gameAction;
 		}
 
@@ -164,6 +162,8 @@ namespace ZoiStudio.InputManager
 
 			//Measure power here
 			// Debug.Log("Power " + power);
+
+			mTouchStartPosition = mTouchEndPosition;
 
 			return power;
 		}
