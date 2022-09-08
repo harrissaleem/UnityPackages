@@ -143,6 +143,10 @@ namespace ZoiStudio.InputManager {
         }
 
         private void RetrieveTouchPositions(int touchID, out Vector3 touchStartPosition, out Vector3 touchEndPosition) {
+            if (!mTouchStartPositions.ContainsKey(touchID)) {
+                mTouchStartPositions[touchID] = Vector3.zero;
+                mTouchEndPositions[touchID] = Vector3.zero;
+            }
             touchStartPosition = mTouchStartPositions[touchID];
             touchEndPosition = mTouchEndPositions[touchID];
         }
