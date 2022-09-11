@@ -1,6 +1,6 @@
 {
   "name": "com.zoistudio.util",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "displayName": "Utilities",
   "description": "This package has some common utility functionalities.",
   "unity": "2019.1",
