@@ -39,6 +39,7 @@ namespace ZoiStudio.InputManager
             if (!mSortedListeners.ContainsKey(listenerGroup))
             {
                 Debug.Log("ListenerGroup = " + listenerGroup + " for T = " + typeof(T).ToString() + " does not exist");
+		mCurrControllingGroup = listenerGroup;
                 return;
             }
             if (mCurrControllingGroup != null)
