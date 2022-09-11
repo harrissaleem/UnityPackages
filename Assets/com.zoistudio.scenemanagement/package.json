@@ -9,5 +9,6 @@
   },
   "author": {
     "name": "Phezu"
-  }
+  },
+  "resolutionStrategy": "highest"
 }
