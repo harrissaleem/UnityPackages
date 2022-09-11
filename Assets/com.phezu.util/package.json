@@ -1,0 +1,10 @@
+{
+  "name": "com.phezu.util",
+  "version": "0.0.1",
+  "displayName": "Utilities",
+  "description": "This package has some common utility functionalities.",
+  "unity": "2021.3",
+  "author": {
+    "name": "Phezu"
+  }
+}

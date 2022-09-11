@@ -1,0 +1,13 @@
+{
+  "name": "com.phezu.inventorysystem",
+  "version": "0.0.1",
+  "displayName": "Inventory System",
+  "description": "Its an inventory system.",
+  "unity": "2021.3",
+  "dependencies": {
+    "com.phezu.util": "0.0.1"
+  },
+  "author": {
+    "name": "Phezu"
+  }
+}

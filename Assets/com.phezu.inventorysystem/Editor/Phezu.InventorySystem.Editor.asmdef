@@ -1,0 +1,18 @@
+{
+    "name": "Phezu.InventorySystem.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:891e0c94e3d407d4facb9baf3590b2fa",
+        "GUID:91c62608f9f05fa48841ad2c6256d4f8",
+        "GUID:d9026699d1fd1d64890c1838c9753e73"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

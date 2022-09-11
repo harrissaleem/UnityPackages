@@ -1,0 +1,17 @@
+{
+    "name": "Phezu.WeaponSystem.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d9026699d1fd1d64890c1838c9753e73",
+        "GUID:3cdce3386f642004b8e826da36c74564"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
