@@ -1,5 +1,5 @@
 {
-    "name": "Phezu.SceneManagement.Runtime",
+    "name": "zoistudio.scenemanagement.runtime",
     "rootNamespace": "",
     "references": [
         "zoistudio.util.runtime",
