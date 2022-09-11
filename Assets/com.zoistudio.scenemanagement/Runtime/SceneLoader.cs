@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Phezu.SceneManagingSystem
+namespace ZoiStudio.SceneManagingSystem
 {
     public class SceneLoader : MonoBehaviour
     {

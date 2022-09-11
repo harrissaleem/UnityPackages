@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Phezu.Util
+namespace ZoiStudio.Util
 {
 
     /// <summary>
