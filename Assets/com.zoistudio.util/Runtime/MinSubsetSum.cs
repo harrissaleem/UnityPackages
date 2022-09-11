@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Phezu.Util
+namespace ZoiStudio.Util
 {
     /// <summary>
     /// Gets the next subset with the minimum sum.

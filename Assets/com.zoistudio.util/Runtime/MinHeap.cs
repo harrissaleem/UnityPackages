@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Phezu.Util
+namespace ZoiStudio.Util
 {
     /// <typeparam name="TDictionary">
     /// Maps a key to the index of the corresponding KeyValuePair 
