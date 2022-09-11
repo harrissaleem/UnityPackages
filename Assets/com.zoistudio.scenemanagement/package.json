@@ -5,7 +5,7 @@
   "description": "Its a scene management system.",
   "unity": "2019.1",
   "dependencies": {
-    "com.phezu.util": "0.0.1"
+    "com.zoistudio.util": "https://github.com/harrissaleem/UnityPackages.git?path=/Assets/com.zoistudio.util"
   },
   "author": {
     "name": "Phezu"
