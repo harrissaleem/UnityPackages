@@ -5,6 +5,8 @@
   "description": "This package has some common utility functionalities.",
   "unity": "2019.1",
   "author": {
-    "name": "Phezu"
+    "name": "Zoi Studio",
+    "email": "admin@zoistudio.com.au",
+    "url": "https://www.zoistudio.com.au"
   }
 }

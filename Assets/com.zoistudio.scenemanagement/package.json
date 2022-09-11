@@ -5,10 +5,12 @@
   "description": "Its a scene management system.",
   "unity": "2019.1",
   "dependencies": {
-    "com.zoistudio.util": "https://github.com/harrissaleem/UnityPackages.git?path=/Assets/com.zoistudio.util#v1.0.0"
+    "com.zoistudio.util": "https://github.com/harrissaleem/UnityPackages.git?path=/Assets/com.zoistudio.util"
   },
   "author": {
-    "name": "Phezu"
+    "name": "Zoi Studio",
+    "email": "admin@zoistudio.com.au",
+    "url": "https://www.zoistudio.com.au"
   },
   "resolutionStrategy": "highest"
 }
