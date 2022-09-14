@@ -2,8 +2,7 @@
     "name": "zoistudio.scenemanagement.runtime",
     "rootNamespace": "",
     "references": [
-        "zoistudio.util.runtime",
-        "zoistudio.util.editor"
+        "phezu.util.runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

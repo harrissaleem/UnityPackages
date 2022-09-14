@@ -1,12 +1,12 @@
 {
   "name": "com.phezu.weaponsystem",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "Weapon System",
   "description": "Its a weapon system.",
   "unity": "2021.3",
   "dependencies": {
-    "com.phezu.util": "0.0.1",
-    "com.phezu.effectorsystem": "0.0.1"
+    "com.phezu.util": "1.0.3",
+    "com.phezu.effectorsystem": "0.0.2"
   },
   "author": {
     "name": "Phezu"

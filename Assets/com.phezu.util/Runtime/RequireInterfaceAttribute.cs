@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ZoiStudio.Util
+namespace Phezu.Util
 {
     /// <summary>
     /// Attribute that require implementation of the provided interface.

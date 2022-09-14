@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace ZoiStudio.Util
+namespace Phezu.Util
 {
     public class TimedSpawner
     {

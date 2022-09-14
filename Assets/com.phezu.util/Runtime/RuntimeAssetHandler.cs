@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ZoiStudio.Util {
+namespace Phezu.Util {
     public class RuntimeAssetHandler : MonoBehaviour {
         [SerializeField] private List<ScriptableObject> allRuntimeAssets;
 

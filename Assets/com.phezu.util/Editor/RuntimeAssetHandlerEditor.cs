@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace ZoiStudio.Util {
+namespace Phezu.Util {
 
     [CustomEditor(typeof(RuntimeAssetHandler))]
     public class RuntimeAssetHandlerEditor : Editor {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ZoiStudio.Util
+namespace Phezu.Util
 {
     public class Config : MonoBehaviour
     {

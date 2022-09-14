@@ -2,7 +2,7 @@
 using UnityEditor;
 
 
-namespace ZoiStudio.Util {
+namespace Phezu.Util {
 /// <summary>
 /// Drawer for the RequireInterface attribute.
 /// </summary>

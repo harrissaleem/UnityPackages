@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using ZoiStudio.Util;
+using Phezu.Util;
 
-namespace ZoiStudio.SceneManagingSystem
+namespace Phezu.SceneManagingSystem
 {
     public class SceneLoadManager : Singleton<SceneLoadManager>
     {

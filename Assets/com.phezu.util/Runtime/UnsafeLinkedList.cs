@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ZoiStudio.Util
+namespace Phezu.Util
 {
     /// <summary>
     /// Use this to do whatever you want every operation is allowed.

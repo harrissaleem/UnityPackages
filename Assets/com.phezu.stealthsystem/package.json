@@ -1,11 +1,11 @@
 {
   "name": "com.phezu.stealthsystem",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "Stealth System",
   "description": "Its a stealth system.",
   "unity": "2021.3",
   "dependencies": {
-    "com.phezu.util": "0.0.1"
+    "com.phezu.util": "1.0.3"
   },
   "author": {
     "name": "Phezu"

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
 
-namespace ZoiStudio.Util
+namespace Phezu.Util
 {
     public static class FEditor
     {

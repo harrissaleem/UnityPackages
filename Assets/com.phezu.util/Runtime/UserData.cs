@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace ZoiStudio.Util
+namespace Phezu.Util
 {
     public static class UserData
     {
