@@ -2,26 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ZoiStudio.InputManager
-{
-    public class InputControlHandler<T> where T : struct
-    {
+namespace ZoiStudio.InputManager {
+    public class InputControlHandler<T> where T : struct {
+        /// <summary>
+        /// Contains all listeners by their listener group.
+        /// </summary>
         private static Hashtable mSortedListeners = new Hashtable();
         private static string mCurrControllingGroup = null;
         private static List<string> mActiveGroups = new List<string>();
 
-        public static void RegisterAsInputListener(IInputListener<T> listener)
-        {
+        public static void RegisterAsInputListener(IInputListener<T> listener) {
             var array = new List<IInputListener<T>>();
             bool isInActivatedGroup = listener.ListenerGroup.CompareTo(mCurrControllingGroup) == 0;
             foreach (string group in mActiveGroups)
                 isInActivatedGroup |= listener.ListenerGroup.CompareTo(group) == 0;
 
-            if (mSortedListeners.ContainsKey(listener.ListenerGroup))
-            {
+            if (mSortedListeners.ContainsKey(listener.ListenerGroup)) {
                 array = (List<IInputListener<T>>)mSortedListeners[listener.ListenerGroup];
-                if (!array.Contains(listener))
-                {
+                if (!array.Contains(listener)) {
                     array.Add(listener);
                     if (isInActivatedGroup)
                         listener.Activate();
@@ -34,16 +32,24 @@ namespace ZoiStudio.InputManager
                 listener.Activate();
         }
 
-        public static void TransferControl(string listenerGroup)
-        {
-            if (!mSortedListeners.ContainsKey(listenerGroup))
-            {
+        public static void UnRegisterAsInputListener(IInputListener<T> listener) {
+            listener.Deactivate();
+            string listenerGroup = listener.ListenerGroup;
+
+            if (mSortedListeners.ContainsKey(listenerGroup)) {
+                var array = (List<IInputListener<T>>)mSortedListeners[listenerGroup];
+                if (array.Contains(listener))
+                    array.Remove(listener);
+            }
+        }
+
+        public static void TransferControl(string listenerGroup) {
+            if (!mSortedListeners.ContainsKey(listenerGroup)) {
                 Debug.Log("ListenerGroup = " + listenerGroup + " for T = " + typeof(T).ToString() + " does not exist");
-		mCurrControllingGroup = listenerGroup;
+                mCurrControllingGroup = listenerGroup;
                 return;
             }
-            if (mCurrControllingGroup != null)
-            {
+            if (mCurrControllingGroup != null) {
                 var prevGroup = (List<IInputListener<T>>)mSortedListeners[mCurrControllingGroup];
                 foreach (var listener in prevGroup)
                     listener.Deactivate();
@@ -54,10 +60,8 @@ namespace ZoiStudio.InputManager
             mCurrControllingGroup = listenerGroup;
         }
 
-        public static void ActivateGroup(string listenerGroup)
-        {
-            if (!mSortedListeners.ContainsKey(listenerGroup))
-            {
+        public static void ActivateGroup(string listenerGroup) {
+            if (!mSortedListeners.ContainsKey(listenerGroup)) {
                 mSortedListeners.Add(listenerGroup, new List<IInputListener<T>>());
                 mActiveGroups.Add(listenerGroup);
                 return;
