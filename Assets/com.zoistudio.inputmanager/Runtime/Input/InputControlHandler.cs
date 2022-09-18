@@ -51,12 +51,10 @@ namespace ZoiStudio.InputManager {
             }
             if (mCurrControllingGroup != null) {
                 var prevGroup = (List<IInputListener<T>>)mSortedListeners[mCurrControllingGroup];
-                foreach (var listener in prevGroup)
-                    listener.Deactivate();
+                DeactivateGroup(prevGroup);
             }
-            var newGroup = (List<IInputListener<T>>)mSortedListeners[listenerGroup];
-            foreach (var listener in newGroup)
-                listener.Activate();
+            var groupToActivate = (List<IInputListener<T>>)mSortedListeners[listenerGroup];
+            ActivateGroup(groupToActivate);
             mCurrControllingGroup = listenerGroup;
         }
 
@@ -70,7 +68,27 @@ namespace ZoiStudio.InputManager {
                 return;
             mActiveGroups.Add(listenerGroup);
             var newGroup = (List<IInputListener<T>>)mSortedListeners[listenerGroup];
-            foreach (var listener in newGroup)
+            ActivateGroup(newGroup);
+        }
+
+        public static void DeactivateGroup(string listenerGroup) {
+            if (!mSortedListeners.ContainsKey(listenerGroup))
+                return;
+            if (!mActiveGroups.Contains(listenerGroup))
+                return;
+
+            mActiveGroups.Remove(listenerGroup);
+            var groupToDeactivate = (List<IInputListener<T>>)mSortedListeners[listenerGroup];
+            DeactivateGroup(groupToDeactivate);
+        }
+
+        private static void DeactivateGroup(List<IInputListener<T>> group) {
+            foreach (var listener in group)
+                listener.Deactivate();
+        }
+
+        private static void ActivateGroup(List<IInputListener<T>> group) {
+            foreach (var listener in group)
                 listener.Activate();
         }
     }

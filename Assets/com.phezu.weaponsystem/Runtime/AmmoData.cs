@@ -2,7 +2,7 @@
 
 namespace Phezu.WeaponSystem
 {
-    [CreateAssetMenu(fileName = "New Projectile", menuName = "ScriptableAssets/ProjectileSystem/Projectile")]
+    [CreateAssetMenu(fileName = "New Projectile", menuName = "Phezu/WeaponSystem/Projectile")]
     public class AmmoData : ScriptableObject
     {
         [Tooltip("Name of the projectile")]

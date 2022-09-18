@@ -6,6 +6,7 @@ namespace Phezu.StealthSystem
 {
     //Assuming the collider of a character controller is of Collider type and that a rigidbody can use it
     [RequireComponent(typeof(Rigidbody), typeof(Collider))]
+    [AddComponentMenu("Phezu/Stealth System/Spy")]
     public class Spy : MonoBehaviour
     {
         [SerializeField] private LayerMask spottersLayer;

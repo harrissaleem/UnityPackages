@@ -1,0 +1,16 @@
+{
+    "name": "Phezu.SceneManagement.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "Phezu.Util.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

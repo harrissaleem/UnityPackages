@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Phezu.InventorySystem
 {
-    [CreateAssetMenu(fileName = "New Item", menuName = "ScriptableAssets/InventorySystem/Item")]
+    [CreateAssetMenu(fileName = "New Item", menuName = "Phezu/InventorySystem/Item")]
     public class ItemData : ScriptableObject
     {
         public ItemType type;

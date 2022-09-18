@@ -1,0 +1,21 @@
+{
+    "name": "Phezu.CurrencySystem.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d9026699d1fd1d64890c1838c9753e73",
+        "GUID:60bfecf5cb232594891bc622f40d6bed",
+        "GUID:08d1c582746949b40ba6a45cdb776bdf",
+        "GUID:be0d2672886cc45b2bcea5a5053a5347",
+        "GUID:5540e30183c82e84b954c033c388e06c",
+        "GUID:fe25561d224ed4743af4c60938a59d0b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

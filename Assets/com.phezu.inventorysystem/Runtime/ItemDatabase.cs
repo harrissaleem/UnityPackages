@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Phezu.InventorySystem
 {
-    [CreateAssetMenu(fileName = "ItemDatabase", menuName = "ScriptableAssets/InventorySystem/Database")]
+    [CreateAssetMenu(fileName = "ItemDatabase", menuName = "Phezu/InventorySystem/Database")]
     public class ItemDatabase : ScriptableObject
     {
         [HideInInspector] public static ItemDatabase Current;

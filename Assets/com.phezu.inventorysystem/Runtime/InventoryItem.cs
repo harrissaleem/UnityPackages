@@ -10,6 +10,7 @@ namespace Phezu.InventorySystem
     /// This script depends on the parent of its transform to have an ItemSlot component at runtime
     /// </summary>
     [RequireComponent(typeof(Image))]
+    [AddComponentMenu("Phezu/Inventory System/Inventory Item")]
     public class InventoryItem : MonoBehaviour
     {
         [SerializeField] protected ItemID mItemId;

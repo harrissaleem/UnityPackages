@@ -2,6 +2,7 @@
 
 namespace Phezu.InventorySystem
 {
+    [AddComponentMenu("Phezu/Inventory System/Default Slot Input Handler")]
     public class DefaultSlotInputHandler : MonoBehaviour, ISlotInputHandler
     {
         private const float LERP_SMOOTHNESS = 0.02f;

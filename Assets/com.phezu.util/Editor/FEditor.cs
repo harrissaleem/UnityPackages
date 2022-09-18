@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEditor;
 
 namespace Phezu.Util
@@ -19,6 +20,21 @@ namespace Phezu.Util
                 }
             }
             return assets;
+        }
+
+        /// <summary>
+        /// Creates an asset in the asset folder of type T.
+        /// </summary>
+        /// <typeparam name="T">Scriptable Object type.</typeparam>
+        /// <param name="path">exclude Assets/ from path. path ends with .asset extension.</param>
+        public static T CreateAsset<T>(string path) where T : ScriptableObject {
+            T itemDatabase = ScriptableObject.CreateInstance<T>();
+
+            AssetDatabase.CreateAsset(itemDatabase, "Assets/" + path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            return itemDatabase;
         }
     }
 }

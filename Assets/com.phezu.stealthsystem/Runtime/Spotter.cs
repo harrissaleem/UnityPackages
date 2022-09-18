@@ -5,6 +5,7 @@ using Phezu.StealthSystem.Internal;
 namespace Phezu.StealthSystem
 {
     [RequireComponent(typeof(Collider))]
+    [AddComponentMenu("Phezu/Stealth System/Spotter")]
     public abstract class Spotter : MonoBehaviour, ISpotter
     {
         #region ExposedVariables

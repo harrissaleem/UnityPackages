@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Phezu.DamageSystem.Internal;
+using Phezu.EffectorSystem.Internal;
 using System.Collections;
 
-namespace Phezu.DamageSystem
+namespace Phezu.EffectorSystem
 {
     [Serializable]
     public class EffectorData : IEnumerable<Effect>

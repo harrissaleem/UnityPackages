@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
-using Phezu.DamageSystem;
+using Phezu.EffectorSystem;
 
 namespace Phezu.WeaponSystem
 {
     [RequireComponent(typeof(Rigidbody))]
+    [AddComponentMenu("Phezu/Weapon System/Ballista Ammo")]
     public abstract class BallistaAmmo : MonoBehaviour
     {
         /// <summary>

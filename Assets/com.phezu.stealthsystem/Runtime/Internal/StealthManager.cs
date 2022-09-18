@@ -4,6 +4,7 @@ using Phezu.Util;
 
 namespace Phezu.StealthSystem.Internal
 {
+    [AddComponentMenu("Phezu/Stealth System/Stealth Manager")]
     public class StealthManager : Singleton<StealthManager>
     {
         #region Exposed Variables

@@ -2,8 +2,9 @@
 using UnityEngine;
 using Phezu.Util;
 
-namespace Phezu.DamageSystem
+namespace Phezu.EffectorSystem
 {
+    [AddComponentMenu("Phezu/Effector System/Effect Manager")]
     public class EffectManager : Singleton<EffectManager>
     {
         [SerializeField] private List<string> allEffects;

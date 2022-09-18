@@ -5,6 +5,7 @@ using Phezu.Util;
 
 namespace Phezu.SceneManagingSystem
 {
+    [AddComponentMenu("Phezu/Scene Managing System/Scene Load Manager")]
     public class SceneLoadManager : Singleton<SceneLoadManager>
     {
         public delegate void SceneLoadBeginAction(string sceneName);

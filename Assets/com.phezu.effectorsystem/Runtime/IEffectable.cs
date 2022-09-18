@@ -1,4 +1,4 @@
-﻿namespace Phezu.DamageSystem
+﻿namespace Phezu.EffectorSystem
 {
     public interface IEffectable
     {

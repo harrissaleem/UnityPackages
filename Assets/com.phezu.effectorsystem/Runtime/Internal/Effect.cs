@@ -1,4 +1,4 @@
-﻿namespace Phezu.DamageSystem.Internal
+﻿namespace Phezu.EffectorSystem.Internal
 {
     [System.Serializable]
     public struct Effect

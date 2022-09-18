@@ -2,7 +2,7 @@
     "name": "Phezu.EffectorSystem.Runtime",
     "rootNamespace": "",
     "references": [
-        "phezu.util.runtime"
+        "Phezu.Util.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

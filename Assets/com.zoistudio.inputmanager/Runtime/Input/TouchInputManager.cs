@@ -4,6 +4,8 @@ using System.Collections;
 using UnityEngine.EventSystems;
 
 namespace ZoiStudio.InputManager {
+
+    [AddComponentMenu("ZoiStudio/Input Manager/Touch Input Manager")]
     public class TouchInputManager : Singleton<TouchInputManager> {
         public delegate void GetInput(InputActionArgs<TouchData> action);
 

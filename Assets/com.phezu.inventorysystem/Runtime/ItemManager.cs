@@ -4,6 +4,7 @@ using Phezu.Util;
 
 namespace Phezu.InventorySystem
 {
+    [AddComponentMenu("Phezu/Inventory System/Item Manager")]
     public class ItemManager : Singleton<ItemManager>
     {
         [RequireInterface(typeof(IReferencesHolder))]

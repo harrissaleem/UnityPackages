@@ -4,6 +4,7 @@ using Phezu.Util;
 
 namespace Phezu.WeaponSystem
 {
+    [AddComponentMenu("Phezu/Weapon System/Ballista")]
     public class Ballista : MonoBehaviour
     {
         [SerializeField] private ShooterData shooterData;

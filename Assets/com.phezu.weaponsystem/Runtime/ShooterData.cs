@@ -2,7 +2,7 @@
 
 namespace Phezu.WeaponSystem
 {
-    [CreateAssetMenu(fileName = "New Ballista", menuName = "ScriptableAssets/ProjectileSystem/Ballista")]
+    [CreateAssetMenu(fileName = "New Ballista", menuName = "Phezu/WeaponSystem/Ballista")]
     public class ShooterData : ScriptableObject
     {
         [Tooltip("Name of the shooter")]

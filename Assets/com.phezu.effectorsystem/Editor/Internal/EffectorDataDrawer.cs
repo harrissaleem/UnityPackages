@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Phezu.DamageSystem.Internal
+namespace Phezu.EffectorSystem.Internal
 {
     [CustomPropertyDrawer(typeof(EffectorData))]
     public class EffectorDataDrawer : PropertyDrawer
