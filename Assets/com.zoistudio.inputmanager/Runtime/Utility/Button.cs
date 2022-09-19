@@ -2,11 +2,11 @@
 
 namespace ZoiStudio.InputManager {
 
-    [AddComponentMenu("ZoiStudio/InputManager/Button")]
+    [AddComponentMenu("ZoiStudio/Input Manager/Button")]
     public class Button : UnityEngine.UI.Button, IInputListener<TouchData> {
         [SerializeField] private string listenerGroup;
 
-        public string ListenerGroup => "";
+        public string ListenerGroup => listenerGroup;
 
         private bool mIsRegistered = false;
 
