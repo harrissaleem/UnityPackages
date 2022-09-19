@@ -5,7 +5,11 @@
         "GUID:3cdce3386f642004b8e826da36c74564",
         "GUID:d9026699d1fd1d64890c1838c9753e73"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
