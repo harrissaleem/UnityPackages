@@ -7,6 +7,8 @@ namespace ZoiStudio.InputManager {
 
     [AddComponentMenu("ZoiStudio/Input Manager/Touch Input Manager")]
     public class TouchInputManager : Singleton<TouchInputManager> {
+        [SerializeField] private LayerMask UI_Layer;
+
         public delegate void GetInput(InputActionArgs<TouchData> action);
 
         public event GetInput OnInput;
@@ -239,7 +241,7 @@ namespace ZoiStudio.InputManager {
         }
 
         private IInputListener<TouchData> GetOnHoverListener(Vector3 position) {
-            if (UIRaycast.PointerIsOverUI(position, out List<RaycastResult> raycastResults)) {
+            if (UIRaycast.PointerIsOverUI(position, out List<RaycastResult> raycastResults, UI_Layer)) {
                 RaycastResult result = raycastResults[0]; // only considering the one at the front!
 
                 if (mListeners.Contains(result.gameObject))
