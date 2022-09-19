@@ -28,7 +28,7 @@ namespace ZoiStudio.InputManager
         {
             if (listener == null)
             {
-                Debug.LogError("Specified listener is null");
+                Debug.Log("Specified listener is null");
                 return false;
             }
 
@@ -42,13 +42,13 @@ namespace ZoiStudio.InputManager
                 ArrayList listenerList = hashtable[action] as ArrayList;
                 if (listenerList == null)
                 {
-                    Debug.LogError("listerner list is null, this is technically impossible");
+                    Debug.Log("listerner list is null, this is technically impossible");
                     return false;
                 }
 
                 if (listenerList.Contains(listener))
                 {
-                    Debug.LogError("listener is already present in the list. You shouldn't try to subscribe again");
+                    Debug.Log("listener is already present in the list. You shouldn't try to subscribe again");
                     return false;
                 }
                 listenerList.Add(listener);
@@ -60,7 +60,7 @@ namespace ZoiStudio.InputManager
         {
             if (listener == null)
             {
-                Debug.LogError("Specified listener is null");
+                Debug.Log("Specified listener is null");
                 return false;
             }
 
@@ -68,20 +68,20 @@ namespace ZoiStudio.InputManager
             {
                 if (!hashtable.ContainsKey(action))
                 {
-                    Debug.LogError("No listeners attached to this event name " + action.ToString());
+                    Debug.Log("No listeners attached to this event name " + action.ToString());
                     return false;
                 }
 
                 ArrayList listenerList = hashtable[action] as ArrayList;
                 if (listenerList == null)
                 {
-                    Debug.LogError("Listener list is null this is impossible at this stage");
+                    Debug.Log("Listener list is null this is impossible at this stage");
                     return false;
                 }
 
                 if (!listenerList.Contains(listener))
                 {
-                    Debug.LogError("this listener is not part of this event's listener list");
+                    Debug.Log("this listener is not part of this event's listener list");
                     return false;
                 }
 
@@ -119,7 +119,7 @@ namespace ZoiStudio.InputManager
             ArrayList listenerList = table[actionArgs.Action] as ArrayList;
             if (listenerList == null)
             {
-                Debug.LogError("listener list can never be null: " + actionArgs.Action);
+                Debug.Log("listener list can never be null: " + actionArgs.Action);
                 return null;
             }
 

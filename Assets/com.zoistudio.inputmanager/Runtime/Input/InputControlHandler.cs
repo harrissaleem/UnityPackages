@@ -33,7 +33,9 @@ namespace ZoiStudio.InputManager {
         }
 
         public static void UnRegisterAsInputListener(IInputListener<T> listener) {
-            listener.Deactivate();
+            if (IsListenerActive(listener))
+                listener.Deactivate();
+
             string listenerGroup = listener.ListenerGroup;
 
             if (mSortedListeners.ContainsKey(listenerGroup)) {
@@ -90,6 +92,18 @@ namespace ZoiStudio.InputManager {
         private static void ActivateGroup(List<IInputListener<T>> group) {
             foreach (var listener in group)
                 listener.Activate();
+        }
+
+        /// <summary>
+        /// Assumes the listener is already registered.
+        /// </summary>
+        private static bool IsListenerActive(IInputListener<T> listener) {
+            string listenerGroup = listener.ListenerGroup;
+
+            if (mCurrControllingGroup == listenerGroup)
+                return true;
+
+            return mActiveGroups.Contains(listenerGroup);
         }
     }
 }
