@@ -1,5 +1,5 @@
 {
-    "name": "phezu.util.editor",
+    "name": "Phezu.Util.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:d9026699d1fd1d64890c1838c9753e73"
