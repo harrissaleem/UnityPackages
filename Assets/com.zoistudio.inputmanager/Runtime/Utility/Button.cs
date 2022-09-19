@@ -27,7 +27,9 @@ namespace ZoiStudio.InputManager {
         }
 
         public void Deactivate() {
-            TouchInputManager.Instance.UnSubscribeToOnUITap(gameObject);
+            var instance = TouchInputManager.Instance;
+            if (instance != null)
+                instance.UnSubscribeToOnUITap(gameObject);
         }
 
         public void OnInput(InputActionArgs<TouchData> action) {
