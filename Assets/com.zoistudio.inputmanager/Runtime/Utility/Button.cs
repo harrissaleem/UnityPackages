@@ -17,6 +17,10 @@ namespace ZoiStudio.InputManager {
                 mIsRegistered = true;
             }
         }
+	
+	private void OnDestroy() {
+	    InputControlHandler<TouchData>.UnRegisterAsInputListener(this);
+	}
 
         public void Activate() {
             TouchInputManager.Instance.SubscribeToOnUITap(gameObject, this);
