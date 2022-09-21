@@ -52,5 +52,17 @@ namespace Phezu.Util
         {
             return layerMask == (layerMask | 1 << layer);
         }
+
+        /// <summary>
+        /// Modulus that works with negative values for num.
+        /// </summary>
+        /// <param name="num">This can be negative.</param>
+        /// <param name="mod">Mod base, did not test with negative values.</param>
+        public static int Mod(int num, int mod) {
+            if (num >= 0)
+                return num % mod;
+
+            return mod - ((-num) % mod);
+        }
     }
 }

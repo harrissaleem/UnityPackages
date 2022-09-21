@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Phezu.Util
@@ -128,7 +129,15 @@ namespace Phezu.Util
 
         private int[] GetNextSubsetIndicies()
         {
-            KeyValuePair<float, int> minSubset = mSumsMinHeap.ExtractMin();
+            KeyValuePair<float, int> minSubset;
+
+            try {
+                minSubset = mSumsMinHeap.ExtractMin();
+            }
+            catch (Exception _) {
+                return null;
+            }
+
             int iteratorIndex = minSubset.Value;
             int[] minSumSubsetIndicies = new int[mIteratorStates[iteratorIndex].Length];
 
@@ -143,11 +152,14 @@ namespace Phezu.Util
         }
 
         /// <summary>
-        /// Gets the sum of the next subset with the minimum sum.
+        /// Gets the sum of the next subset with the minimum sum. 0 if no more subsets remaining.
         /// </summary>
         public float NextMinSum()
         {
             float[] minSumSubsetIndicies = NextMinSubset();
+
+            if (minSumSubsetIndicies == null)
+                return 0f;
 
             float minSum = 0f;
 
@@ -158,12 +170,14 @@ namespace Phezu.Util
         }
 
         /// <summary>
-        /// Gets the set of floats that have the next minimum sum.
+        /// Gets the set of floats that have the next minimum sum. Null if no more subsets remaining.
         /// </summary>
-        /// <returns></returns>
         public float[] NextMinSubset()
         {
             int[] minSumSubsetIndicies = GetNextSubsetIndicies();
+
+            if (minSumSubsetIndicies == null)
+                return null;
 
             float[] minSubset = new float[minSumSubsetIndicies.Length];
 
@@ -176,9 +190,8 @@ namespace Phezu.Util
         }
 
         /// <summary>
-        /// Gets the indicies of floats that have the next minimum sum.
+        /// Gets the indicies of floats that have the next minimum sum. Null if no more subsets remaining.
         /// </summary>
-        /// <returns></returns>
         public int[] NextMinSubsetIndicies()
         {
             return GetNextSubsetIndicies();
