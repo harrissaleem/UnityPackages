@@ -1,14 +1,39 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Phezu.Util
 {
     /// <summary>
     /// Use this to do whatever you want every operation is allowed.
     /// </summary>
-    public class UnsafeLinkedList<T>
+    public class UnsafeLinkedList<T> : IEnumerable
     {
         public UnsafeLinkedListNode First;
         public UnsafeLinkedListNode Last;
+
+        public class UnsafeLinkedListIterator : IEnumerator {
+            private UnsafeLinkedListNode first;
+            private UnsafeLinkedListNode curr;
+            public object Current => curr;
+
+            public UnsafeLinkedListIterator(UnsafeLinkedListNode first) {
+                this.first = first;
+                curr = first;
+            }
+
+            public bool MoveNext() {
+                if (curr.Next == null)
+                    return false;
+
+                curr = curr.Next;
+
+                return true;
+            }
+
+            public void Reset() {
+                curr = first;
+            }
+        }
 
         public class UnsafeLinkedListNode
         {
@@ -66,6 +91,10 @@ namespace Phezu.Util
                 Debug.LogError("You may be trying to loop an UnsafeLinkedList");
 
             Last = node;
+        }
+
+        public IEnumerator GetEnumerator() {
+            return new UnsafeLinkedListIterator(First);
         }
     }
 }
