@@ -93,6 +93,41 @@ namespace Phezu.Util
             Last = node;
         }
 
+        public bool Remove(T value, IEqualityComparer comparer = null) {
+            var curr = First;
+
+            while (curr != null) {
+                if (comparer == null) {
+                    if (curr.Value.Equals(value)) {
+                        RemoveNode(curr);
+                        return true;
+                    }
+                }
+                else if (comparer.Equals(curr.Value, value)) {
+                    RemoveNode(curr);
+                    return true;
+                }
+
+                curr = curr.Next;
+            }
+
+            return false;
+        }
+
+        private void RemoveNode(UnsafeLinkedListNode node) {
+            var prevNode = node.Prev;
+            var nextNode = node.Next;
+
+            if (prevNode != null)
+                prevNode.Next = nextNode;
+
+            if (nextNode != null)
+                nextNode.Prev = prevNode;
+
+            node.Next = null;
+            node.Prev = null;
+        }
+
         public IEnumerator GetEnumerator() {
             return new UnsafeLinkedListIterator(First);
         }
