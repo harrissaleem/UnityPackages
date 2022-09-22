@@ -21,15 +21,17 @@ namespace Phezu.Util
 
             public UnsafeLinkedListIterator(UnsafeLinkedListNode first) {
                 this.first = first;
-                curr = first;
+                curr = null;
             }
 
             public bool MoveNext() {
-                if (curr == null)
-                    return false;
+                if (curr == null) {
+                    curr = first;
+                    return true;
+                }
 
-		        if (curr == first)
-		            return true;
+                if (curr.Next == null)
+                    return false;
 
                 curr = curr.Next;
 
