@@ -43,7 +43,7 @@ namespace Phezu.Util
             }
 
             public void Dispose() {
-                throw new System.NotImplementedException();
+                
             }
         }
 
