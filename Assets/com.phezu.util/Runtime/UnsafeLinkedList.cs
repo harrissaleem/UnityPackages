@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Phezu.Util
@@ -6,15 +6,18 @@ namespace Phezu.Util
     /// <summary>
     /// Use this to do whatever you want every operation is allowed.
     /// </summary>
-    public class UnsafeLinkedList<T> : IEnumerable
+    public class UnsafeLinkedList<T> : IEnumerable<T>
     {
         public UnsafeLinkedListNode First;
         public UnsafeLinkedListNode Last;
 
-        public class UnsafeLinkedListIterator : IEnumerator {
+        public class UnsafeLinkedListIterator : IEnumerator<T> {
             private UnsafeLinkedListNode first;
             private UnsafeLinkedListNode curr;
-            public object Current => curr;
+
+            T IEnumerator<T>.Current => curr.Value;
+
+            public object Current => curr.Value;
 
             public UnsafeLinkedListIterator(UnsafeLinkedListNode first) {
                 this.first = first;
@@ -25,8 +28,8 @@ namespace Phezu.Util
                 if (curr == null)
                     return false;
 
-		if (curr == first)
-		    return true;
+		        if (curr == first)
+		            return true;
 
                 curr = curr.Next;
 
@@ -35,6 +38,10 @@ namespace Phezu.Util
 
             public void Reset() {
                 curr = first;
+            }
+
+            public void Dispose() {
+                throw new System.NotImplementedException();
             }
         }
 
@@ -96,7 +103,7 @@ namespace Phezu.Util
             Last = node;
         }
 
-        public bool Remove(T value, IEqualityComparer comparer = null) {
+        public bool Remove(T value, IEqualityComparer<T> comparer = null) {
             var curr = First;
 
             while (curr != null) {
@@ -131,7 +138,11 @@ namespace Phezu.Util
             node.Prev = null;
         }
 
-        public IEnumerator GetEnumerator() {
+        IEnumerator<T> IEnumerable<T>.GetEnumerator() {
+            return new UnsafeLinkedListIterator(First);
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             return new UnsafeLinkedListIterator(First);
         }
     }
