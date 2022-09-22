@@ -22,8 +22,11 @@ namespace Phezu.Util
             }
 
             public bool MoveNext() {
-                if (curr.Next == null)
+                if (curr == null)
                     return false;
+
+		if (curr == first)
+		    return true;
 
                 curr = curr.Next;
 
