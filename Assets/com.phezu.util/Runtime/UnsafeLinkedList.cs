@@ -11,6 +11,16 @@ namespace Phezu.Util
         public UnsafeLinkedListNode First;
         public UnsafeLinkedListNode Last;
 
+        public T LastValue {
+            get {
+                if (First == null)
+                    return default;
+                if (Last == null)
+                    return First.Value;
+                return Last.Value;
+            }
+        }
+
         public class UnsafeLinkedListIterator : IEnumerator<T> {
             private UnsafeLinkedListNode first;
             private UnsafeLinkedListNode curr;
