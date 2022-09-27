@@ -67,9 +67,9 @@ namespace Phezu.Util
                 First.Value = value;
                 First.Next = null;
                 First.Prev = null;
-                Last = First;
+                Last = null;
             }
-            else if (First == Last)
+            else if (Last == null)
             {
                 Last = new();
                 Last.Value = value;
