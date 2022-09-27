@@ -100,8 +100,19 @@ namespace Phezu.Util
 
         public void Connect(UnsafeLinkedListNode node, int loopCheck = 1000)
         {
-            Last.Next = node;
-            node.Prev = Last;
+            if (node == null) {
+                Debug.Log("Trying to connect UnsafeLinkedList to a null node.");
+                return;
+            }
+
+            if (Last == null) {
+                First.Next = node;
+                node.Prev = First;
+            }
+            else {
+                Last.Next = node;
+                node.Prev = Last;
+            }
 
             while (node.Next != null && loopCheck > 0)
             {
