@@ -31,12 +31,22 @@ namespace ZoiStudio.InputManager {
         private float mStartTime;
         private float mEndTime;
 
+        [Tooltip("This listener will get notified if it is on the UI_Layer and the touch events belong to a finger that initially tapped on it." +
+            "Only this listener will get notified when it is tapped and it is not notified if the user taps anywhere else.")]
         public void SubscribeToOnUITap(GameObject listenerObj, IInputListener<TouchData> listener) {
             if (!mListeners.ContainsKey(listenerObj))
                 mListeners.Add(listenerObj, listener);
         }
         public void UnSubscribeToOnUITap(GameObject listenerObj) {
             mListeners.Remove(listenerObj);
+        }
+
+        [Tooltip("This listener will get")]
+        public void SubscribeToOnWorldTap(Collider listenerCol, IInputListener<TouchData> listener) {
+
+        }
+        public void UnSubscribeToOnWorldTap(Collider listenerCol) {
+
         }
 
         private void Start() {
@@ -214,6 +224,7 @@ namespace ZoiStudio.InputManager {
 
         private void InvokeTouch(TouchGameAction action, Vector3 position, int touchID, Vector2 deltaPosition = default, float velocity = 0f) {
             IInputListener<TouchData> priorityListener;
+
             if (action == TouchGameAction.Tap)
                 priorityListener = GetOnHoverListener(position);
             else

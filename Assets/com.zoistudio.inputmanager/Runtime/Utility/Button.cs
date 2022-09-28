@@ -10,20 +10,26 @@ namespace ZoiStudio.InputManager {
 
         private bool mIsRegistered = false;
 
-        protected override void Start() {
+        protected override void Awake() {
             base.Awake();
             if (!mIsRegistered) {
                 InputControlHandler<TouchData>.RegisterAsInputListener(this);
                 mIsRegistered = true;
             }
         }
-	
-	private void OnDestroy() {
-	    InputControlHandler<TouchData>.UnRegisterAsInputListener(this);
-	}
+
+        protected override void OnDestroy() {
+            base.OnDestroy();
+	        InputControlHandler<TouchData>.UnRegisterAsInputListener(this);
+	    }
 
         public void Activate() {
-            TouchInputManager.Instance.SubscribeToOnUITap(gameObject, this);
+            ///Short term solution for the given problem:
+            ///Awake and Start methods of the base class 
+            ///get called when the application is quitting
+            ///causing up to register and activate again.
+            if (TouchInputManager.Instance != null)
+                TouchInputManager.Instance.SubscribeToOnUITap(gameObject, this);
         }
 
         public void Deactivate() {
