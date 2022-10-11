@@ -12,7 +12,7 @@ namespace Phezu.Util
         public static void Save<T>(string path, T value)
         {
             string jsonValue = JsonUtility.ToJson(value);
-            string filePath = Application.persistentDataPath + "/Phezu/" + path + ".json";
+            string filePath = Application.persistentDataPath + "/" + path + ".json";
 
             FileInfo file = new(filePath);
             file.Directory.Create();
@@ -26,7 +26,7 @@ namespace Phezu.Util
         /// <param name="mono">Reference to the object where the data will be written.</param>
         public static bool LoadMonoOrScriptable(string path, object mono)
         {
-            string filePath = Application.persistentDataPath + "/Phezu/" + path + ".json";
+            string filePath = Application.persistentDataPath + "/" + path + ".json";
 
             if (!File.Exists(filePath))
                 return false;
@@ -45,7 +45,7 @@ namespace Phezu.Util
         /// <returns>Default value on failure.</returns>
         public static T LoadObject<T>(string path)
         {
-            string filePath = Application.persistentDataPath + "/Phezu/" + path + ".json";
+            string filePath = Application.persistentDataPath + "/" + path + ".json";
 
             if (!File.Exists(filePath))
                 return default;

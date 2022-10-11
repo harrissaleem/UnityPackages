@@ -3,13 +3,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace ZoiStudio.InputManager {
-    public static class UIRaycast {
+    public static class Raycast {
         public static bool PointerIsOverUI(Vector2 screenPos, out List<RaycastResult> raycastResults, LayerMask layerMask) {
-            raycastResults = Raycast(ScreenPosToPointerData(screenPos), layerMask);
+            raycastResults = RaycastUI(ScreenPosToPointerData(screenPos), layerMask);
             return raycastResults.Count > 0;
         }
 
-        static List<RaycastResult> Raycast(PointerEventData pointerData, LayerMask layerMask) {
+        public static bool PointerIsOverCollider(Vector2 screenPos, out List<RaycastResult> raycastResults, Camera cam) {
+            Ray ray = cam.ScreenPointToRay(screenPos);
+
+            raycastResults = null;
+
+            return false;
+        }
+
+        static List<RaycastResult> RaycastUI(PointerEventData pointerData, LayerMask layerMask) {
             var results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerData, results);
 

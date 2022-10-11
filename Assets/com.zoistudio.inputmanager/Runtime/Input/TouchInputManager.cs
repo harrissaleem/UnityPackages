@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine.EventSystems;
 
 namespace ZoiStudio.InputManager {
@@ -18,35 +17,57 @@ namespace ZoiStudio.InputManager {
         public const int MAX_TOUCHES = 4;
 
         /// <summary>
-        /// You have to subscribe to receive a callback on raycast
+        /// Will only receive callbacks on touch events that started inside their collider.
         /// </summary>
-        private Hashtable mListeners = new Hashtable();
+        private Dictionary<GameObject, IInputListener<TouchData>> mWorldListeners = new();
+
+        /// <summary>
+        /// Will only receive callbacks on touch events that started inside their rect.
+        /// </summary>
+        private Dictionary<GameObject, IInputListener<TouchData>> mUIListeners = new();
+       
         /// <summary>
         /// if you touch a UI object, it will be set as a priority listener and only it will receive callbacks until that Touch
         /// </summary>
-        private Hashtable mPriorityListeners = new Hashtable();
+        private Dictionary<int, IInputListener<TouchData>> mPriorityListeners = new();
         private Dictionary<int, Vector3> mTouchStartPositions = new();
         private Dictionary<int, Vector3> mTouchEndPositions = new();
 
+        private Camera mCamera;
         private float mStartTime;
         private float mEndTime;
 
-        [Tooltip("This listener will get notified if it is on the UI_Layer and the touch events belong to a finger that initially tapped on it." +
-            "Only this listener will get notified when it is tapped and it is not notified if the user taps anywhere else.")]
+        /// <summary>
+        /// This listener will get notified if it is on the UI_Layer and the touch events belong to a 
+        /// finger that initially tapped on its rect. Only this listener will get notified when it is tapped
+        /// and it is not notified if the user taps anywhere else. If it is above a OnWorldTap listener it 
+        /// will get prioritized over it.
+        /// </summary>
         public void SubscribeToOnUITap(GameObject listenerObj, IInputListener<TouchData> listener) {
-            if (!mListeners.ContainsKey(listenerObj))
-                mListeners.Add(listenerObj, listener);
+            if (!mUIListeners.ContainsKey(listenerObj))
+                mUIListeners.Add(listenerObj, listener);
         }
         public void UnSubscribeToOnUITap(GameObject listenerObj) {
-            mListeners.Remove(listenerObj);
+            mUIListeners.Remove(listenerObj);
         }
 
-        [Tooltip("This listener will get")]
-        public void SubscribeToOnWorldTap(Collider listenerCol, IInputListener<TouchData> listener) {
-
+        /// <summary>
+        /// This listener will get notified if the touch events belong to a finger that initially tapped
+        /// on its collider. Only this listener will get notified when it is tapped and it is not notified
+        /// if the user taps anywhere else. Will be ignored if it is behind an OnUITap listener
+        /// </summary>
+        public void SubscribeToOnWorldTap(GameObject listenerCol, IInputListener<TouchData> listener) {
+            mWorldListeners.TryAdd(listenerCol, listener);
         }
-        public void UnSubscribeToOnWorldTap(Collider listenerCol) {
+        public void UnSubscribeToOnWorldTap(GameObject listenerCol) {
+            mWorldListeners.Remove(listenerCol);
+        }
 
+        /// <summary>
+        /// Call this function if you switch main camera.
+        /// </summary>
+        public void RefreshCameraCache() {
+            mCamera = Camera.main;
         }
 
         private void Start() {
@@ -55,6 +76,8 @@ namespace ZoiStudio.InputManager {
             mTouchStartPositions[DESKTOP_TOUCH_ID] = Vector3.zero;
             mTouchEndPositions[DESKTOP_TOUCH_ID] = Vector3.zero;
 #endif
+
+            mCamera = Camera.main;
         }
 
         private void Update() {
@@ -228,7 +251,7 @@ namespace ZoiStudio.InputManager {
             if (action == TouchGameAction.Tap)
                 priorityListener = GetOnHoverListener(position);
             else
-                priorityListener = (IInputListener<TouchData>)mPriorityListeners[touchID];
+                priorityListener = mPriorityListeners[touchID];
 
             InputActionArgs<TouchData> inputArgs = GetInputArgs(action, position, touchID, deltaPosition, velocity);
 
@@ -252,13 +275,26 @@ namespace ZoiStudio.InputManager {
         }
 
         private IInputListener<TouchData> GetOnHoverListener(Vector3 position) {
-            if (UIRaycast.PointerIsOverUI(position, out List<RaycastResult> raycastResults, UI_Layer)) {
-                RaycastResult result = raycastResults[0]; // only considering the one at the front!
+            IInputListener<TouchData> onHoverListener = null;
 
-                if (mListeners.Contains(result.gameObject))
-                    return (IInputListener<TouchData>)mListeners[result.gameObject];
+            if (Raycast.PointerIsOverUI(position, out List<RaycastResult> raycastResultsUI, UI_Layer)) {
+                RaycastResult result = raycastResultsUI[0]; // only considering the one at the front
+
+                if (mUIListeners.ContainsKey(result.gameObject))
+                    onHoverListener = mUIListeners[result.gameObject];
             }
-            return null;
+
+            if (onHoverListener != null)
+                return onHoverListener;
+
+            if (Raycast.PointerIsOverCollider(position, out List<RaycastResult> raycastResults, mCamera)) {
+                RaycastResult result = raycastResults[0]; // only considering the one at the front
+
+                if (mWorldListeners.ContainsKey(result.gameObject))
+                    onHoverListener = mWorldListeners[result.gameObject];
+            }
+
+            return onHoverListener;
         }
 
         private InputActionArgs<TouchData> GetInputArgs(TouchGameAction action, Vector3 position, int fingerID, Vector2 deltaPosition, float velocity) {
