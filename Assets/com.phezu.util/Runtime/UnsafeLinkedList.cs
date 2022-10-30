@@ -151,14 +151,27 @@ namespace Phezu.Util
             var prevNode = node.Prev;
             var nextNode = node.Next;
 
-            if (prevNode != null)
-                prevNode.Next = nextNode;
-
-            if (nextNode != null)
-                nextNode.Prev = prevNode;
-
             node.Next = null;
             node.Prev = null;
+
+            if (prevNode != null)
+                prevNode.Next = nextNode;
+            else
+                First = nextNode;
+
+            if (nextNode != null) {
+                nextNode.Prev = prevNode;
+
+                if (prevNode == null && nextNode.Next == null)
+                    Last = null;
+
+                return;
+            }
+
+            if (prevNode == null || (prevNode != null && prevNode.Prev == null))
+                Last = null;
+            else if (prevNode.Prev != null)
+                Last = prevNode;
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator() {
