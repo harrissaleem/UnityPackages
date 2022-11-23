@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 039736621e5d5b8418916f2feb76803e, type: 3}
+  m_Name: PackageInstructions
+  m_EditorClassIdentifier: 
+  Text: 'Creating a package:
+
+    1) Create a folder com.phezu.<packagename>.
+
+    2)
+    Create a Runtime and Editor folder.
+
+    3) Create a runtime and editor assembly
+    and place it into its respective folder e.g Phezu.EffectorSystem.Runtime.asmdef.
+
+    4)
+    Put a json file called package in the root folder. (You will find a sample package.json
+    file in this folder)
+
+
+    Updating a package:
+
+    1) Make changes to its folder.
+
+    2)
+    Increment the version number in package.json.
+
+    3) Then commit.'
