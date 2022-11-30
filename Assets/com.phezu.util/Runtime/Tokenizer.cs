@@ -17,60 +17,58 @@ namespace Phezu.Util {
             }
         }
 
-        private List<string> m_SpecialTokens;
+        private List<char> m_SpecialCharacters;
         private char m_Seperator;
 
         private List<Token> m_LineTokens;
         private StringBuilder m_CurrWord;
         private bool m_IsBuildingToken = false;
 
-        public Tokenizer(string[] specialCharacters, char seperator) {
-            if (specialCharacters.Contains(seperator + ""))
+        public Tokenizer(char[] specialCharacters, char seperator) {
+            if (specialCharacters.Contains(seperator))
                 throw new System.Exception("specialCharacters cannot contain seperator");
 
-            m_SpecialTokens = new(specialCharacters);
+            m_SpecialCharacters = new(specialCharacters);
             m_Seperator = seperator;
-
-            m_LineTokens = new();
-            m_CurrWord = new();
         }
 
-        private void ClearData() {
-            m_LineTokens.Clear();
-            m_CurrWord.Clear();
+        private void Reset() {
+            m_LineTokens = new();
+            m_CurrWord = new();
         }
 
         public List<Token> TokenizeString(string text) {
             if (string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text))
                 return new();
 
-            ClearData();
+            Reset();
 
             for (int i = 0; i < text.Length; i++) {
                 bool isLastCharacter = i == text.Length - 1;
                 ProcessCharacter(text[i], isLastCharacter);
             }
+            ProcessCharacter(m_Seperator, true);
 
             return m_LineTokens;
         }
 
         private void ProcessCharacter(char character, bool isLastCharacter) {
-            if (character != m_Seperator)
-                AppendCurrWord(character);
-            if (ReachedTokenEnd(character, isLastCharacter))
+            if (IsSpecialCharacter(character))
+                ProcessSpecialCharacter(character, isLastCharacter);
+            else if (ReachedTokenEnd(character))
                 ExtractTokenFromCurrWord(isLastCharacter);
+            else if (character != m_Seperator)
+                AppendCurrWord(character);
         }
 
-        private bool ReachedTokenEnd(char character, bool isLastCharacter) {
+        private bool ReachedTokenEnd(char character) {
             bool isSeperator = character == m_Seperator;
 
-            return (isSeperator && m_IsBuildingToken) || isLastCharacter;
+            return isSeperator && m_IsBuildingToken;
         }
-
-        private bool IsSpecialToken(string tokenWord) {
-            return m_SpecialTokens.Contains(tokenWord);
+        private bool IsSpecialCharacter(char character) {
+            return m_SpecialCharacters.Contains(character);
         }
-
         private void AppendCurrWord(char character) {
             m_CurrWord.Append(character);
             m_IsBuildingToken = true;
@@ -84,10 +82,15 @@ namespace Phezu.Util {
         }
 
         private void CreateTokenFromCurrWord(bool isEndOfLineToken) {
-            string currWord = m_CurrWord.ToString();
-            bool isSpecialToken = IsSpecialToken(currWord);
+            bool isSpecialToken = false;
+            m_LineTokens.Add(new(m_CurrWord.ToString(), isSpecialToken, isEndOfLineToken));
+        }
+        private void ProcessSpecialCharacter(char character, bool isEndOfLineToken) {
+            if (m_IsBuildingToken)
+                ExtractTokenFromCurrWord(isEndOfLineToken);
 
-            m_LineTokens.Add(new(currWord, isSpecialToken, isEndOfLineToken));
+            bool isSpecialToken = true;
+            m_LineTokens.Add(new(character + "", isSpecialToken, isEndOfLineToken));
         }
     }
 }

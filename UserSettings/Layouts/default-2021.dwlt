@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1366
     height: 685
   m_ShowMode: 4
-  m_Title: Test Runner
+  m_Title: Project
   m_RootView: {fileID: 8}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 44
+  controlID: 68
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 43
+  controlID: 67
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -119,8 +119,8 @@ MonoBehaviour:
     y: 0
     width: 410
     height: 258
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 15}
@@ -146,8 +146,8 @@ MonoBehaviour:
     y: 0
     width: 213
     height: 376
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -275,7 +275,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 72
+  controlID: 126
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -300,7 +300,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 73
+  controlID: 127
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -320,8 +320,8 @@ MonoBehaviour:
     y: 0
     width: 743
     height: 376
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 19}
@@ -441,7 +441,7 @@ MonoBehaviour:
       name: Input Package Project
       fullName: Input Package Project
       resultStatus: 1
-      duration: 0.0796933
+      duration: 0.0730397
       messages: 
       output: 
       stacktrace: 
@@ -457,7 +457,7 @@ MonoBehaviour:
       name: UtilTests.dll
       fullName: E:/Users/faiza/Unity Library/Phezu/Library/ScriptAssemblies/UtilTests.dll
       resultStatus: 1
-      duration: 0.0484178
+      duration: 0.0468798
       messages: 
       output: 
       stacktrace: 
@@ -625,7 +625,7 @@ MonoBehaviour:
       name: TokenizerTester
       fullName: TokenizerTester
       resultStatus: 1
-      duration: 0.0469091
+      duration: 0.0452496
       messages: 
       output: 
       stacktrace: 
@@ -636,12 +636,132 @@ MonoBehaviour:
       categories: []
       parentId: 1007
       parentUniqueId: '[UtilTests][E:/Users/faiza/Unity Library/Phezu/Library/ScriptAssemblies/UtilTests.dll][suite]'
+    - id: 1030
+      uniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerSpecialTokenTestCases][suite]
+      name: RunTokenizerSpecialTokenTestCases
+      fullName: TokenizerTester.RunTokenizerSpecialTokenTestCases
+      resultStatus: 1
+      duration: 0.0413371
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1013
+      parentUniqueId: UtilTests.dll/[UtilTests][TokenizerTester][suite]
+    - id: 1029
+      uniqueId: UtilTests.dll/TokenizerTester/RunTokenizerSpecialTokenTestCases/[UtilTests][TokenizerTester.RunTokenizerSpecialTokenTestCases(System.String[],'
+        ',"sub 1 2",System.Boolean[])]
+      name: RunTokenizerSpecialTokenTestCases(System.String[],' ',"sub 1 2",System.Boolean[])
+      fullName: TokenizerTester.RunTokenizerSpecialTokenTestCases(System.String[],'
+        ',"sub 1 2",System.Boolean[])
+      resultStatus: 1
+      duration: 0.0215219
+      messages: 
+      output: '|sub|: True
+
+        |1|: False
+
+        |2|: False
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1030
+      parentUniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerSpecialTokenTestCases][suite]
+    - id: 1030
+      uniqueId: UtilTests.dll/TokenizerTester/RunTokenizerSpecialTokenTestCases/[UtilTests][TokenizerTester.RunTokenizerSpecialTokenTestCases(System.String[],'
+        ',"sub1 2",System.Boolean[])]
+      name: RunTokenizerSpecialTokenTestCases(System.String[],' ',"sub1 2",System.Boolean[])
+      fullName: TokenizerTester.RunTokenizerSpecialTokenTestCases(System.String[],'
+        ',"sub1 2",System.Boolean[])
+      resultStatus: 1
+      duration: 0.0014162
+      messages: 
+      output: '|sub1|: False
+
+        |2|: False
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1031
+      parentUniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerSpecialTokenTestCases][suite]
+    - id: 1031
+      uniqueId: UtilTests.dll/TokenizerTester/RunTokenizerSpecialTokenTestCases/[UtilTests][TokenizerTester.RunTokenizerSpecialTokenTestCases(System.String[],'
+        ',"sub 1 2 add",System.Boolean[])]
+      name: RunTokenizerSpecialTokenTestCases(System.String[],' ',"sub 1 2 add",System.Boolean[])
+      fullName: TokenizerTester.RunTokenizerSpecialTokenTestCases(System.String[],'
+        ',"sub 1 2 add",System.Boolean[])
+      resultStatus: 1
+      duration: 0.0020953
+      messages: 
+      output: '|sub|: False
+
+        |1|: False
+
+        |2|: False
+
+        |add|:
+        True
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1033
+      parentUniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerSpecialTokenTestCases][suite]
+    - id: 1032
+      uniqueId: UtilTests.dll/TokenizerTester/RunTokenizerSpecialTokenTestCases/[UtilTests][TokenizerTester.RunTokenizerSpecialTokenTestCases(System.String[],'
+        ',"sub 1 2 add",System.Boolean[])]2
+      name: RunTokenizerSpecialTokenTestCases(System.String[],' ',"sub 1 2 add",System.Boolean[])
+      fullName: TokenizerTester.RunTokenizerSpecialTokenTestCases(System.String[],'
+        ',"sub 1 2 add",System.Boolean[] GeneratedTestCase2)
+      resultStatus: 1
+      duration: 0.0019059
+      messages: 
+      output: '|sub|: True
+
+        |1|: False
+
+        |2|: False
+
+        |add|:
+        True
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1033
+      parentUniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerSpecialTokenTestCases][suite]
     - id: 1009
       uniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerWordTestCases][suite]
       name: RunTokenizerWordTestCases
       fullName: TokenizerTester.RunTokenizerWordTestCases
       resultStatus: 1
-      duration: 0.0429344
+      duration: 0.0520287
       messages: 
       output: 
       stacktrace: 
@@ -658,7 +778,7 @@ MonoBehaviour:
       name: RunTokenizerWordTestCases(System.String[],' ',"this;",System.String[])
       fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' ',"this;",System.String[])
       resultStatus: 1
-      duration: 0.0195095
+      duration: 0.0210005
       messages: 
       output: '|this;|
 
@@ -679,7 +799,7 @@ MonoBehaviour:
       fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' ',"this
         ; ",System.String[])
       resultStatus: 1
-      duration: 0.0016358
+      duration: 0.0013437
       messages: 
       output: '|this|
 
@@ -702,7 +822,7 @@ MonoBehaviour:
       fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' '," this
         ;; ",System.String[])
       resultStatus: 1
-      duration: 0.0010782
+      duration: 0.0010457
       messages: 
       output: '|this|
 
@@ -725,7 +845,7 @@ MonoBehaviour:
       fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' '," th;is
         is A",System.String[])
       resultStatus: 1
-      duration: 0.0014609
+      duration: 0.0021112
       messages: 
       output: '|th;is|
 
@@ -750,7 +870,7 @@ MonoBehaviour:
       fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' '," this
         ;; ",System.String[] GeneratedTestCase2)
       resultStatus: 1
-      duration: 0.0009981
+      duration: 0.001302
       messages: 
       output: '|this|
 
@@ -773,7 +893,7 @@ MonoBehaviour:
       fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' '," th;is
         is A",System.String[] GeneratedTestCase2)
       resultStatus: 1
-      duration: 0.00157
+      duration: 0.0014625
       messages: 
       output: '|th;is|
 
@@ -798,7 +918,7 @@ MonoBehaviour:
       fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],'_'," th;is
         is A",System.String[])
       resultStatus: 1
-      duration: 0.0006011
+      duration: 0.0007001
       messages: 
       output: '| th;is is A|
 
@@ -811,6 +931,104 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1024
+      parentUniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerWordTestCases][suite]
+    - id: 1024
+      uniqueId: UtilTests.dll/TokenizerTester/RunTokenizerWordTestCases/[UtilTests][TokenizerTester.RunTokenizerWordTestCases(System.String[],'
+        ',"add 1 2",System.String[])]
+      name: RunTokenizerWordTestCases(System.String[],' ',"add 1 2",System.String[])
+      fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' ',"add
+        1 2",System.String[])
+      resultStatus: 1
+      duration: 0.0016922
+      messages: 
+      output: '|add|
+
+        |1|
+
+        |2|
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1025
+      parentUniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerWordTestCases][suite]
+    - id: 1025
+      uniqueId: UtilTests.dll/TokenizerTester/RunTokenizerWordTestCases/[UtilTests][TokenizerTester.RunTokenizerWordTestCases(System.String[],'
+        '," add 1 2",System.String[])]
+      name: RunTokenizerWordTestCases(System.String[],' '," add 1 2",System.String[])
+      fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' '," add
+        1 2",System.String[])
+      resultStatus: 1
+      duration: 0.001559
+      messages: 
+      output: '|add|
+
+        |1|
+
+        |2|
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
+      parentUniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerWordTestCases][suite]
+    - id: 1026
+      uniqueId: UtilTests.dll/TokenizerTester/RunTokenizerWordTestCases/[UtilTests][TokenizerTester.RunTokenizerWordTestCases(System.String[],'
+        ',"1 add 2 ",System.String[])]
+      name: RunTokenizerWordTestCases(System.String[],' ',"1 add 2 ",System.String[])
+      fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' ',"1
+        add 2 ",System.String[])
+      resultStatus: 1
+      duration: 0.0016647
+      messages: 
+      output: '|1|
+
+        |add|
+
+        |2|
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
+      parentUniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerWordTestCases][suite]
+    - id: 1027
+      uniqueId: UtilTests.dll/TokenizerTester/RunTokenizerWordTestCases/[UtilTests][TokenizerTester.RunTokenizerWordTestCases(System.String[],'
+        ',"1add 2 ",System.String[])]
+      name: RunTokenizerWordTestCases(System.String[],' ',"1add 2 ",System.String[])
+      fullName: TokenizerTester.RunTokenizerWordTestCases(System.String[],' ',"1add
+        2 ",System.String[])
+      resultStatus: 1
+      duration: 0.0009999
+      messages: 
+      output: '|1add|
+
+        |2|
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1028
       parentUniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.RunTokenizerWordTestCases][suite]
     - id: 1007
       uniqueId: UtilTests.dll/TokenizerTester/[UtilTests][TokenizerTester.TokenizeEmptyString]
@@ -863,13 +1081,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1004
       parentUniqueId: UtilTests.dll/[UtilTests][TokenizerTester][suite]
-    m_ResultText: RunTokenizerWordTestCases (0.043s)
+    m_ResultText: RunTokenizerSpecialTokenTestCases (0.041s)
     m_ResultStacktrace: 
     m_TestListState:
-      scrollPos: {x: 0, y: 47}
-      m_SelectedIDs: 651cf0aa
-      m_LastClickedID: -1427104667
-      m_ExpandedIDs: 651cf0aafbfd5fea8316103c9f4bd43fffffff7f
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 819b2e1d
+      m_LastClickedID: 489593729
+      m_ExpandedIDs: fbfd5fea8316103c9f4bd43fffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -930,7 +1148,7 @@ MonoBehaviour:
     m_CachedPref: -310
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 24278
+  m_LastInspectedObjectInstanceID: 24274
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -991,9 +1209,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: 0c5f0000
-    m_LastClickedID: 24332
-    m_ExpandedIDs: 00000000d85e000000ca9a3bffffff7f
+    m_SelectedIDs: e85e0000
+    m_LastClickedID: 24296
+    m_ExpandedIDs: 00000000d45e000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1021,7 +1239,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d85e0000
+    m_ExpandedIDs: 00000000d45e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1048,7 +1266,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1149,9 +1367,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 1c5f0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 12f2ffff84f2ffff7af3ffffe4f3ffffd0f4ffff42f5ffffe0f6ffff52f7ffff52f8ffffc4f8ffffb8f9ffff2efaffff30fbffff
+      m_ExpandedIDs: 4cf2ffffb2f2ffff46f4ffffa0f4ffff64f7ffffdef7ffff98f9ffff0afaffff34fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

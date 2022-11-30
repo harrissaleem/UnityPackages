@@ -1,6 +1,6 @@
 {
   "name": "com.phezu.util",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "displayName": "Utilities",
   "description": "This package has some common utility functionalities.",
   "unity": "2019.1",
