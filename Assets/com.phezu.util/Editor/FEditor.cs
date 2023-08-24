@@ -6,7 +6,7 @@ namespace Phezu.Util
 {
     public static class FEditor
     {
-        public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
+        public static List<T> FindAssetsByType<T>() where T : Object
         {
             List<T> assets = new();
             string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
@@ -16,6 +16,19 @@ namespace Phezu.Util
                 T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
                 if (asset != null)
                 {
+                    assets.Add(asset);
+                }
+            }
+            return assets;
+        }
+
+        public static List<T> FindAssetsByType<T>(string[] foldersToSearch) where T : Object {
+            List<T> assets = new();
+            string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)), foldersToSearch);
+            for (int i = 0; i < guids.Length; i++) {
+                string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+                T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                if (asset != null) {
                     assets.Add(asset);
                 }
             }
