@@ -1,6 +1,6 @@
 {
   "name": "com.phezu.inventorysystem",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "displayName": "Inventory System",
   "description": "Its an inventory system.",
   "unity": "2021.3",

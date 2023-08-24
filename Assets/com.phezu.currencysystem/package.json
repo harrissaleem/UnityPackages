@@ -1,6 +1,6 @@
 {
   "name": "com.phezu.currencysystem",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "displayName": "Currency System",
   "description": "General system that keeps track of player's finance and accounting.",
   "unity": "2021.3",

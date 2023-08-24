@@ -1,6 +1,6 @@
 {
     "name": "com.zoistudio.inputmanager",
-    "version": "0.0.18",
+    "version": "0.0.19",
     "displayName": "Input Manager",
     "description": "This package is used to handle touch inputs.",
     "unity": "2019.1",
