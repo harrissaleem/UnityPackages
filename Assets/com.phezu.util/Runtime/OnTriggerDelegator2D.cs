@@ -1,16 +1,16 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Phezu.Util {
+namespace phezu.Util {
     /// <summary>
     /// Delegates the call to OnTrigger2D for this object to another object.
     /// </summary>
-    [RequireComponent(typeof(Collider))]
-    public class OnTriggerDelegator : MonoBehaviour {
-        private Collider caller;
+    [RequireComponent(typeof(Collider2D))]
+    public class OnTriggerDelegator2D : MonoBehaviour {
+        private Collider2D caller;
 
         private void Awake() {
-            caller = GetComponent<Collider>();
+            caller = GetComponent<Collider2D>();
         }
 
         [Tooltip("Which function should be called when trigger was entered.")]
@@ -19,8 +19,8 @@ namespace Phezu.Util {
         [Tooltip("Which function should be called when trigger was exited.")]
         public UnityEvent<OnTriggerDelegation> Exit;
 
-        void OnTriggerEnter(Collider other) => Enter.Invoke(new OnTriggerDelegation(caller, other));
-        void OnTriggerExit(Collider other) => Exit.Invoke(new OnTriggerDelegation(caller, other));
+        void OnTriggerEnter2D(Collider2D other) => Enter.Invoke(new OnTriggerDelegation(caller, other));
+        void OnTriggerExit2D(Collider2D other) => Exit.Invoke(new OnTriggerDelegation(caller, other));
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ namespace Phezu.Util {
         /// </summary>
         /// <param name="caller">The trigger collider which triggered the call.</param>
         /// <param name="other">The collider which belongs to the other object.</param>
-        public OnTriggerDelegation(Collider caller, Collider other) {
+        public OnTriggerDelegation(Collider2D caller, Collider2D other) {
             Caller = caller;
             Other = other;
         }
@@ -42,12 +42,11 @@ namespace Phezu.Util {
         /// <summary>
         /// The trigger collider which triggered the call.
         /// </summary>
-        public Collider Caller { get; private set; }
+        public Collider2D Caller { get; private set; }
 
         /// <summary>
         /// The other collider.
         /// </summary>
-        public Collider Other { get; private set; }
+        public Collider2D Other { get; private set; }
     }
-
 }
