@@ -72,7 +72,7 @@ public class AdsLoader : MonoBehaviour
 		string settingsName = "";
 #if UNITY_ANDROID
 		settingsName = "DisableAds_Android";
-#elif UNITY_IOS
+#elif UNITY_IPHONE
 		settingsName = "DisableAds_iOS";
 #else
 		settingsName = "DisableAds";
@@ -95,7 +95,7 @@ public class AdsLoader : MonoBehaviour
 		SOAdIds soAdIds = null;
 #if UNITY_ANDROID
 		adIds = inTestMode ? Test_Android_AdIds : Admob_Android_AdIds;
-#elif UNITY_IOS
+#elif UNITY_IPHONE
 		soAdIds = inTestMode ? testIOSAdIds : admobIOSAdIds;
 #else
 		return string.Empty;
