@@ -33,17 +33,17 @@ public class AdsLoader : MonoBehaviour
 	[SerializeField]
 	private SOAdIds testIOSAdIds;
 
-	public static AdsLoader instance;    
-	public Action<Reward> OnUserEarnedRewardEvent;
-	public Action OnAdClosedEvent;
+	public static AdsLoader Instance;    
+	public static Action<Reward> OnUserEarnedRewardEvent;
+	public static Action OnAdClosedEvent;
 
 	private AdMobManager adMobManager;
 	
 	private void Awake()
 	{
-		if (instance == null)
+		if (Instance == null)
 		{
-			instance = this;
+			Instance = this;
 		}
 		else
 		{
