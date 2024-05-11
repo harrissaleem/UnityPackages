@@ -1,7 +1,6 @@
 using GoogleMobileAds.Api;
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class ShowAdTypes
@@ -34,8 +33,9 @@ public class AdsLoader : MonoBehaviour
 	[SerializeField]
 	private SOAdIds testIOSAdIds;
 
-	public static AdsLoader instance;
-	public Action OnRewarded;
+	public static AdsLoader instance;    
+	public Action<Reward> OnUserEarnedRewardEvent;
+	public Action OnAdClosedEvent;
 
 	private AdMobManager adMobManager;
 	
@@ -62,8 +62,9 @@ public class AdsLoader : MonoBehaviour
 		adMobManager = gameObject.AddComponent<AdMobManager>();
 		adMobManager.Init(this, adTypes);
 		adMobManager.OnUserEarnedRewardEvent += EarnedRewarededEvnt;
-		// adMobManager.OnAdClosedEvent += AdClosed;
+		adMobManager.OnAdClosedEvent += AdClosed;
 	}
+
 	#region Ads
 
 	public bool CheckAdsDisabled()
@@ -82,9 +83,13 @@ public class AdsLoader : MonoBehaviour
 	private void EarnedRewarededEvnt(Reward reward)
 	{
 		Debug.Log("Rewarded");
-		OnRewarded?.Invoke();
+		OnUserEarnedRewardEvent?.Invoke(reward);
 	}
 
+	private void AdClosed()
+	{
+		OnAdClosedEvent?.Invoke();
+	}
 	public string GetAdId(AdType adType)
 	{
 		SOAdIds soAdIds = null;
@@ -113,18 +118,20 @@ public class AdsLoader : MonoBehaviour
 		}
 	}
 
-	public void ShowAd(AdType type)
+	public bool ShowAd(AdType type)
 	{
 		if (CheckAdsDisabled())
-			return;
+			return false;
 
 		//if (Application.platform != RuntimePlatform.Android || Application.platform != RuntimePlatform.IPhonePlayer)
 		//	return;
 		if (!adMobManager.ShowAd(type))
 		{
-			Debug.Log("Show Ad Failed");
+			Debug.LogError("Show Ad Failed");
+			return false;
 		}
-	
+
+		return true;
 	}
 
 	public void HideAd(AdType type)
