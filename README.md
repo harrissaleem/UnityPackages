@@ -6,3 +6,6 @@
 
 # SceneManager Add by URL
 # https://github.com/harrissaleem/UnityPackages.git?path=/Assets/com.zoistudio.scenemanagement
+
+# AdsManager Add by URL
+# https://github.com/harrissaleem/UnityPackages.git?path=/Assets/com.zoistudio.adsmanager
