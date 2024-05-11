@@ -1,6 +1,6 @@
 {
     "name": "com.zoistudio.adsmanager",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "displayName": "Ads Manager",
     "description": "This package is used to handle google mobile ads.",
     "unity": "2019.1",

@@ -111,8 +111,9 @@ public class AdsLoader : MonoBehaviour
 			case AdType.Interstetial:
 				return soAdIds.InterstitialId;
 			case AdType.RewardedInterstitial:
+				return soAdIds.RewardedInterstitialId;
 			case AdType.Rewarded:
-				return soAdIds.RewardedId;
+                return soAdIds.RewardedId;
 			default:
 				return string.Empty;
 		}
