@@ -95,7 +95,7 @@ namespace Phezu.WeaponSystem
             }
 
             float rotationPerFrame = mData.targetFollowingStrength * Mathf.Deg2Rad * Time.fixedDeltaTime;
-            mRigidbody.velocity = Vector3.RotateTowards(mRigidbody.velocity, meToTarget, rotationPerFrame, 0f);
+            mRigidbody.linearVelocity = Vector3.RotateTowards(mRigidbody.linearVelocity, meToTarget, rotationPerFrame, 0f);
         }
         /// <summary>
         /// Updates the transform's position to apply the noise
