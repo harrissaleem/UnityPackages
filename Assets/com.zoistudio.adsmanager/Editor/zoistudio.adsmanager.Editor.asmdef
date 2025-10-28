@@ -1,3 +1,16 @@
 {
-	"name": "zoistudio.adsmanager.Editor"
+    "name": "zoistudio.adsmanager.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:cbb42e4cfd9484f52972c8f05e1c3252"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
