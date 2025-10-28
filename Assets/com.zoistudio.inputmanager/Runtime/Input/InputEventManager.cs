@@ -48,7 +48,7 @@ namespace ZoiStudio.InputManager
 
                 if (listenerList.Contains(listener))
                 {
-                    Debug.Log("listener is already present in the list. You shouldn't try to subscribe again");
+                    Debug.Log($"listener {listener} is already present in the list. You shouldn't try to subscribe again");
                     return false;
                 }
                 listenerList.Add(listener);
