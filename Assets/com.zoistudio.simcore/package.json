@@ -1,0 +1,21 @@
+{
+  "name": "com.zoistudio.simcore",
+  "version": "1.0.0",
+  "displayName": "SimCore Framework",
+  "description": "Reusable simulation game framework for entity management, signals, UI, and game modules.",
+  "unity": "6000.0",
+  "dependencies": {
+    "com.unity.inputsystem": "1.17.0",
+    "com.unity.textmeshpro": "3.0.6"
+  },
+  "keywords": [
+    "simulation",
+    "framework",
+    "entity",
+    "signals",
+    "game"
+  ],
+  "author": {
+    "name": "ZOI Studio"
+  }
+}
