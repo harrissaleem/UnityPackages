@@ -12,6 +12,22 @@ using SimCore.Signals;
 namespace SimCore.Modules.Vehicle
 {
     /// <summary>
+    /// Interface for traffic light components.
+    /// Implement this on your traffic light to enable AI vehicle detection.
+    /// </summary>
+    public interface ITrafficLight
+    {
+        /// <summary>True if the light is red (vehicles should stop)</summary>
+        bool IsRed { get; }
+
+        /// <summary>True if the light is yellow (vehicles should prepare to stop)</summary>
+        bool IsYellow { get; }
+
+        /// <summary>True if the light is green (vehicles can go)</summary>
+        bool IsGreen { get; }
+    }
+
+    /// <summary>
     /// AI controller for NPC vehicles.
     /// Provides waypoint following and simple traffic behavior.
     /// </summary>
@@ -56,6 +72,12 @@ namespace SimCore.Modules.Vehicle
         [Tooltip("Obstacle layer mask")]
         [SerializeField] private LayerMask _obstacleLayer = ~0;
 
+        [Tooltip("Pedestrian layer mask (for pedestrian detection)")]
+        [SerializeField] private LayerMask _pedestrianLayer;
+
+        [Tooltip("Tag for traffic light objects")]
+        [SerializeField] private string _trafficLightTag = "TrafficLight";
+
         [Header("═══ STEERING ═══")]
         [Tooltip("Steering responsiveness")]
         [SerializeField] private float _steeringSensitivity = 1f;
@@ -87,6 +109,12 @@ namespace SimCore.Modules.Vehicle
         private bool _obstacleAhead;
         private float _obstacleDistance;
         private Vector3 _obstaclePosition;
+
+        // Traffic detection
+        private bool _redLightAhead;
+        private float _redLightDistance;
+        private bool _pedestrianAhead;
+        private float _pedestrianDistance;
 
         // Output
         private float _throttle;
@@ -283,12 +311,15 @@ namespace SimCore.Modules.Vehicle
         {
             _obstacleAhead = false;
             _obstacleDistance = _detectionRange;
+            _pedestrianAhead = false;
+            _pedestrianDistance = _detectionRange;
+            _redLightAhead = false;
+            _redLightDistance = _detectionRange;
 
-            // Raycast forward
             Vector3 origin = transform.position + Vector3.up * 0.5f;
             Vector3 forward = transform.forward;
 
-            // Center ray
+            // Center ray for obstacles
             if (Physics.Raycast(origin, forward, out RaycastHit hit, _detectionRange, _obstacleLayer))
             {
                 _obstacleAhead = true;
@@ -308,6 +339,47 @@ namespace SimCore.Modules.Vehicle
                         _obstacleAhead = true;
                         _obstacleDistance = hit.distance;
                         _obstaclePosition = hit.point;
+                    }
+                }
+            }
+
+            // Detect pedestrians if configured
+            if (_stopForPedestrians && _pedestrianLayer != 0)
+            {
+                if (Physics.Raycast(origin, forward, out hit, _detectionRange, _pedestrianLayer))
+                {
+                    _pedestrianAhead = true;
+                    _pedestrianDistance = hit.distance;
+                }
+            }
+
+            // Detect traffic lights if configured
+            if (_obeyTrafficLights && !string.IsNullOrEmpty(_trafficLightTag))
+            {
+                DetectTrafficLights(origin, forward);
+            }
+        }
+
+        // Reusable array to avoid allocations
+        private static readonly RaycastHit[] _trafficLightHits = new RaycastHit[8];
+
+        private void DetectTrafficLights(Vector3 origin, Vector3 forward)
+        {
+            // Non-alloc spherecast for performance
+            int hitCount = Physics.SphereCastNonAlloc(origin, 2f, forward, _trafficLightHits, _detectionRange);
+
+            for (int i = 0; i < hitCount; i++)
+            {
+                var hit = _trafficLightHits[i];
+                if (hit.collider != null && hit.collider.CompareTag(_trafficLightTag))
+                {
+                    // Check if traffic light is red
+                    var trafficLight = hit.collider.GetComponent<ITrafficLight>();
+                    if (trafficLight != null && trafficLight.IsRed)
+                    {
+                        _redLightAhead = true;
+                        _redLightDistance = hit.distance;
+                        return;
                     }
                 }
             }
@@ -393,6 +465,32 @@ namespace SimCore.Modules.Vehicle
             if (_obeySpeedLimits)
             {
                 desiredSpeed = Mathf.Min(desiredSpeed, _currentSpeedLimit);
+            }
+
+            // Stop for red lights
+            if (_redLightAhead)
+            {
+                float stopDistance = _followDistance * 1.5f;
+                if (_redLightDistance < stopDistance)
+                {
+                    _brake = 1f;
+                    return;
+                }
+                float speedFactor = Mathf.Clamp01((_redLightDistance - stopDistance) / _slowDownDistance);
+                desiredSpeed *= speedFactor;
+            }
+
+            // Stop for pedestrians
+            if (_pedestrianAhead)
+            {
+                float stopDistance = _followDistance;
+                if (_pedestrianDistance < stopDistance)
+                {
+                    _brake = 1f;
+                    return;
+                }
+                float speedFactor = Mathf.Clamp01((_pedestrianDistance - stopDistance) / _slowDownDistance);
+                desiredSpeed *= speedFactor;
             }
 
             // Slow down for obstacles

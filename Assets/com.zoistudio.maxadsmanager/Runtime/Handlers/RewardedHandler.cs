@@ -18,8 +18,10 @@ namespace ZOIStudio.MaxAdsManager
         public override bool IsReady => false;
 #endif
 
-        // Reward event
+        // Reward event (used in APPLOVIN_MAX block)
+#pragma warning disable CS0067
         public event Action<MaxReward> OnRewardEarned;
+#pragma warning restore CS0067
 
         public override void Initialize(string adUnitId, MaxAdsSettings settings, MonoBehaviour owner)
         {

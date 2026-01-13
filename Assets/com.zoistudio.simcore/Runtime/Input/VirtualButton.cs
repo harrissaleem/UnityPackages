@@ -41,6 +41,11 @@ namespace SimCore.Input
         public bool IsPressed => _isPressed;
 
         /// <summary>
+        /// Whether this is a hold button (continuous action) vs tap button (single trigger).
+        /// </summary>
+        public bool IsHoldButton => _isHoldButton;
+
+        /// <summary>
         /// Event fired when button is pressed.
         /// </summary>
         public event Action OnPressed;

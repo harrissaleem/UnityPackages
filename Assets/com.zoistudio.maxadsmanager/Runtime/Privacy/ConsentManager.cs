@@ -16,7 +16,9 @@ namespace ZOIStudio.MaxAdsManager
         public ConsentStatus CurrentStatus { get; private set; } = ConsentStatus.Unknown;
 
         public event Action OnConsentCompleted;
+#pragma warning disable CS0067
         public event Action<ConsentStatus> OnConsentStatusChanged;
+#pragma warning restore CS0067
 
         public ConsentManager(MaxAdsSettings settings)
         {

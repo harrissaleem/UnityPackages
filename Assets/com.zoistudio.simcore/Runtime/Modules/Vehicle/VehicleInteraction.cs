@@ -519,10 +519,7 @@ namespace SimCore.Modules.Vehicle
 
             for (int i = 0; i < _passengerSeats.Length; i++)
             {
-                // Check if this seat index is taken
-                // (passenger index = seat index, driver is 0)
-                bool taken = false;
-                // Simple approach: count passengers
+                // Simple approach: return first seat index beyond current passenger count
                 if (i >= _passengerIds.Count)
                     return i;
             }

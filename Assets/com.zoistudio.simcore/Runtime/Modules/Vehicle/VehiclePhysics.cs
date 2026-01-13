@@ -184,8 +184,8 @@ namespace SimCore.Modules.Vehicle
             if (_rb == null) return;
 
             _rb.mass = 1500f;
-            _rb.linearDamping = 0.05f;
-            _rb.angularDamping = 0.5f;
+            _rb.linearDamping = _arcadeDrag * 0.025f;
+            _rb.angularDamping = _arcadeAngularDrag * 0.1f;
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
 
             // Lower center of mass for stability

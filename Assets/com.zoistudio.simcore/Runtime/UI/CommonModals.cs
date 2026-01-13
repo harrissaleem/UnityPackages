@@ -272,6 +272,7 @@ namespace SimCore.UI
 
         private float _duration;
         private float _elapsed;
+        private bool _isFadingIn;
         private bool _isFadingOut;
 
         public void Show(ToastData data)
@@ -281,6 +282,7 @@ namespace SimCore.UI
             _messageText.text = data.Message;
             _duration = data.Duration;
             _elapsed = 0f;
+            _isFadingIn = _fadeInTime > 0f;
             _isFadingOut = false;
 
             // Set color based on type
@@ -295,9 +297,9 @@ namespace SimCore.UI
                 };
             }
 
-            // Start visible
+            // Start transparent if fading in, otherwise visible
             if (_canvasGroup != null)
-                _canvasGroup.alpha = 1f;
+                _canvasGroup.alpha = _isFadingIn ? 0f : 1f;
 
             gameObject.SetActive(true);
         }
@@ -306,12 +308,32 @@ namespace SimCore.UI
         {
             _elapsed += Time.unscaledDeltaTime;
 
+            // Fade in phase
+            if (_isFadingIn)
+            {
+                if (_canvasGroup != null)
+                {
+                    _canvasGroup.alpha = Mathf.Clamp01(_elapsed / _fadeInTime);
+                }
+
+                if (_elapsed >= _fadeInTime)
+                {
+                    _isFadingIn = false;
+                    _elapsed = 0f;
+                    if (_canvasGroup != null)
+                        _canvasGroup.alpha = 1f;
+                }
+                return;
+            }
+
+            // Display phase - wait for duration
             if (!_isFadingOut && _elapsed >= _duration)
             {
                 _isFadingOut = true;
                 _elapsed = 0f;
             }
 
+            // Fade out phase
             if (_isFadingOut)
             {
                 if (_canvasGroup != null)

@@ -140,9 +140,13 @@ namespace ZOIStudio.MaxAdsManager.Editor
             EditorGUILayout.LabelField("SDK Configuration", EditorStyles.boldLabel);
             EditorGUILayout.Space(5);
 
-            EditorGUILayout.PropertyField(_serializedSettings.FindProperty("sdkKey"), new GUIContent("SDK Key"));
+            // SDK Key is now in AppLovin Integration Manager
+            EditorGUILayout.HelpBox("SDK Key is configured in AppLovin > Integration Manager", MessageType.Info);
+            EditorGUILayout.Space(5);
+
             EditorGUILayout.PropertyField(_serializedSettings.FindProperty("testMode"), new GUIContent("Test Mode"));
             EditorGUILayout.PropertyField(_serializedSettings.FindProperty("verboseLogging"), new GUIContent("Verbose Logging"));
+            EditorGUILayout.PropertyField(_serializedSettings.FindProperty("muteAudio"), new GUIContent("Mute Audio"));
 
             EditorGUILayout.Space(15);
             EditorGUILayout.LabelField("Ad Formats", EditorStyles.boldLabel);
@@ -167,6 +171,7 @@ namespace ZOIStudio.MaxAdsManager.Editor
 
             EditorGUILayout.PropertyField(_serializedSettings.FindProperty("bannerPosition"));
             EditorGUILayout.PropertyField(_serializedSettings.FindProperty("autoShowBanner"));
+            EditorGUILayout.PropertyField(_serializedSettings.FindProperty("useAdaptiveBanner"), new GUIContent("Use Adaptive Banner"));
             EditorGUILayout.PropertyField(_serializedSettings.FindProperty("bannerBackgroundColor"));
         }
 
@@ -235,6 +240,7 @@ namespace ZOIStudio.MaxAdsManager.Editor
 
             EditorGUILayout.PropertyField(_serializedSettings.FindProperty("appOpenMinInterval"), new GUIContent("Min Interval (seconds)"));
             EditorGUILayout.PropertyField(_serializedSettings.FindProperty("appOpenMaxPerSession"), new GUIContent("Max Per Session"));
+            EditorGUILayout.PropertyField(_serializedSettings.FindProperty("appOpenBackgroundThreshold"), new GUIContent("Background Threshold (seconds)"));
 
             EditorGUILayout.Space(15);
             EditorGUILayout.LabelField("General", EditorStyles.boldLabel);
@@ -246,6 +252,7 @@ namespace ZOIStudio.MaxAdsManager.Editor
             EditorGUILayout.HelpBox(
                 "Recommendations:\n" +
                 "- Min 30 seconds between interstitials (Google requirement)\n" +
+                "- App open: require 30+ seconds backgrounding before showing\n" +
                 "- Start ads from level 3 (skip onboarding)\n" +
                 "- Rewarded ads have no limits (user-initiated)",
                 MessageType.Info);
@@ -263,8 +270,12 @@ namespace ZOIStudio.MaxAdsManager.Editor
 
             EditorGUILayout.Space(15);
 
-            // Quick validation display
-            DrawValidationItem("SDK Key", !string.IsNullOrEmpty(_settings.sdkKey));
+            // Quick validation display - SDK Key is now in AppLovin Integration Manager
+#if APPLOVIN_MAX
+            DrawValidationItem("SDK Key (AppLovin Settings)", !string.IsNullOrEmpty(AppLovinSettings.Instance.SdkKey));
+#else
+            DrawValidationItem("SDK Key", false, "Install AppLovin MAX SDK first");
+#endif
 
 #if UNITY_ANDROID
             var adIds = _settings.androidAdIds;
