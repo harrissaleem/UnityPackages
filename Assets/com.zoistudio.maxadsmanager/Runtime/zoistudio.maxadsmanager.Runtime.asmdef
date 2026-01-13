@@ -1,0 +1,14 @@
+{
+    "name": "zoistudio.maxadsmanager.Runtime",
+    "rootNamespace": "ZOIStudio.MaxAdsManager",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

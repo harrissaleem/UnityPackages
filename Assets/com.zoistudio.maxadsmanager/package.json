@@ -1,0 +1,22 @@
+{
+  "name": "com.zoistudio.maxadsmanager",
+  "version": "1.0.0",
+  "displayName": "MAX Ads Manager",
+  "description": "AppLovin MAX ad mediation wrapper with ATT/GDPR consent, frequency capping, internet connectivity enforcement, and ANR prevention.",
+  "unity": "6000.0",
+  "keywords": [
+    "ads",
+    "applovin",
+    "max",
+    "mediation",
+    "gdpr",
+    "att",
+    "monetization"
+  ],
+  "author": {
+    "name": "ZOI Studio",
+    "email": "admin@zoistudio.com.au",
+    "url": "https://www.zoistudio.com.au"
+  },
+  "dependencies": {}
+}
